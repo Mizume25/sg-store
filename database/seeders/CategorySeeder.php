@@ -58,7 +58,7 @@ class CategorySeeder extends Seeder
                 {
                     Category::create([
                         'name' => $child['name'],
-                        'code' => strtoupper(substr($child['name'], 0,4)). '-' . strtoupper(Str::random(4)),
+                        'code' => strtoupper(substr($child['name'], 0,3)). '-' . strtoupper(Str::random(4)),
                         'description' => $this->descriptions($child['name']),
                         'parent_id' => $parent->id
                     ]);
