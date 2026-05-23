@@ -1,0 +1,54 @@
+[
+    {
+      "name": "frutas",
+      "children": [
+        {
+          "name": "manzanas",
+          "images": ["fuji.webp", "fuji2.webp", "golden.webp", "golden2.webp"]
+        },
+        {
+          "name": "peras",
+          "images": ["conferencia.webp", "conferencia2.webp", "william.webp", "william2.webp"]
+        }
+      ]
+    },
+    {
+      "name": "verduras",
+      "children": [
+        {
+          "name": "zanahorias",
+          "images": ["baby.webp", "baby2.webp", "rallada.webp", "rallada2.webp"]
+        },
+        {
+          "name": "lechugas",
+          "images": ["romana.webp", "romana2.webp", "iceberg.webp", "iceberg2.webp"]
+        }
+      ]
+    },
+    {
+      "name": "carnes",
+      "children": [
+        {
+          "name": "pollo",
+          "images": ["entero.webp", "entero2.webp", "muslo.webp", "muslo2.webp", "pechuga.webp", "pechuga2.webp"]
+        },
+        {
+          "name": "ternera",
+          "images": ["chuleta.webp", "chuleta2.webp", "filete.webp", "filete2.webp"]
+        }
+      ]
+    },
+    {
+      "name": "lacteos",
+      "children": [
+        {
+          "name": "leche",
+          "images": ["desnatada.webp", "desnatada2.webp", "sinlactosa.webp", "sinlactosa2.webp"]
+        },
+        {
+          "name": "quesos",
+          "images": ["manchego.webp", "manchego2.webp", "brie.webp", "brie2.webp"]
+        }
+      ]
+    } 
+]

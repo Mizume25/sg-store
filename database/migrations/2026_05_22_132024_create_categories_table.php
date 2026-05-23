@@ -17,7 +17,7 @@ return new class extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->string('code', 10)->unique(); //Codigo Debe ser unico
-            $table->string('name');
+            $table->string('name')->unique();
             $table->text('description');
             $table->unsignedBigInteger('parent_id')->nullable(); // Campo Foreign Key que que permite establecer relacion jerarquica entre categorias
             $table->timestamps();

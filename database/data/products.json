@@ -1,0 +1,19 @@
+[
+  { "name": "Manzana Fuji", "code": "MF", "description": "Manzana de origen japonés, dulce y crujiente con piel rojiza." },
+  { "name": "Manzana Golden", "code": "MG", "description": "Manzana amarilla de sabor suave y dulce, ideal para zumos y postres." },
+  { "name": "Pera Conferencia", "code": "PC", "description": "Pera alargada de pulpa jugosa y sabor dulce, perfecta para consumo directo." },
+  { "name": "Pera Williams", "code": "PW", "description": "Pera de piel fina y pulpa muy jugosa, aromática y dulce." },
+  { "name": "Zanahoria Baby", "code": "ZB", "description": "Zanahorias pequeñas y tiernas, ideales para snacks y ensaladas." },
+  { "name": "Zanahoria Rallada", "code": "ZR", "description": "Zanahoria fresca rallada lista para usar en ensaladas y guisos." },
+  { "name": "Lechuga Romana", "code": "LR", "description": "Lechuga de hojas alargadas y crujientes, base ideal para ensaladas César." },
+  { "name": "Lechuga Iceberg", "code": "LI", "description": "Lechuga compacta y crujiente, perfecta para hamburguesas y ensaladas frescas." },
+  { "name": "Pollo Entero", "code": "PE", "description": "Pollo de granja criado en libertad, ideal para asar al horno." },
+  { "name": "Muslo de Pollo", "code": "MP", "description": "Muslos de pollo jugosos y sabrosos, perfectos para guisos y parrilla." },
+  { "name": "Pechuga de Pollo", "code": "PP", "description": "Pechuga de pollo magra y tierna, ideal para platos saludables." },
+  { "name": "Filete de Ternera", "code": "FT", "description": "Filete de ternera tierno y jugoso, perfecto para plancha o parrilla." },
+  { "name": "Chuleta de Ternera", "code": "CT", "description": "Chuleta de ternera con hueso, sabrosa y jugosa al horno o parrilla." },
+  { "name": "Leche Desnatada", "code": "LD", "description": "Leche fresca desnatada con bajo contenido en grasa, rica en calcio." },
+  { "name": "Leche Sin Lactosa", "code": "LS", "description": "Leche fresca sin lactosa, apta para personas con intolerancia." },
+  { "name": "Queso Manchego", "code": "QM", "description": "Queso curado de oveja con denominación de origen, sabor intenso y persistente." },
+  { "name": "Queso Brie", "code": "QB", "description": "Queso francés de pasta blanda con corteza blanca, cremoso y suave." }
+]
