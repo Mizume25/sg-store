@@ -378,9 +378,9 @@ return [
         ],
         ['header' => 'labels'],
         [
-            'text' => 'important',
+            'text' => 'Crear Categoria',
             'icon_color' => 'red',
-            'url' => '#',
+            'url' => '/categories/create',
         ],
         [
             'text' => 'warning',
