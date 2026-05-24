@@ -32,7 +32,7 @@
         <div class="d-flex" style="background-color: antiquewhite">
             <x-sidebar />
             <main class="flex-grow-1 p-4">
-                
+                @yield('content')
             </main>
         </div>
 

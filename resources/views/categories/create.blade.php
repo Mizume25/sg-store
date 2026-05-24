@@ -1,12 +1,4 @@
-{{-- Extendermos la plantilla --}}
-@extends('adminlte::page')
-
-@section('title', 'Crear Categoria')
-
-@section('content_header')
-    <h1>Crear Nueva Categoria </h1>
-
-@endsection
+@extends('layouts.app')
 
 @section('content')
     <div class="d-flex justify-content-center">
@@ -77,5 +69,4 @@
             </div>
         </div>
     </div>
-
 @endsection
