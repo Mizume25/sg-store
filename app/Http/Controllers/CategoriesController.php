@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class CategoriesController extends Controller
@@ -19,7 +20,11 @@ class CategoriesController extends Controller
      */
     public function create()
     {
-        return view('categories.create');
+        /** Obtenemos todas las categorias padre  */
+        $categories  = Category::whereNull('parent_id')->get();
+
+        /** y lo cargamos a la lista  */
+        return view('categories.create', compact('categories'));
     }
 
     /**
