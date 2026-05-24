@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/',[AuthenticatedSessionController::class, 'create'])->name('auth.login');
 
 /** Crear Vista de Home */
-Route::get('/home', [CatalogController::class, 'home'])->middleware(['auth', 'verified'])->name('home');
+Route::get('/dashboard', [CatalogController::class, 'home'])->middleware(['auth', 'verified'])->name('dashboard');
 
 /*
 Route::get('/dashboard', function () {
