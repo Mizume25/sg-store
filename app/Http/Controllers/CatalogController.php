@@ -10,8 +10,6 @@ class CatalogController extends Controller
     /** Funcion que retorna la vista home */
     public function home() 
     {
-        
-
-        return view('home');
+        return view('dashboard');
     }
 }
