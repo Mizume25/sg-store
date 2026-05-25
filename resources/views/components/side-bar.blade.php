@@ -2,7 +2,7 @@
     /** Iteraremos los campos */
     $items = [
         ['label' => 'Dashboard', 'route' => 'dashboard', 'icon' => 'bi bi-speedometer2'],
-        ['label' => 'Crear Categoria', 'route' => 'categories.create', 'icon' => 'bi bi-tags'],
+        ['label' => 'Gestionar Categorias', 'route' => 'categories.create', 'icon' => 'bi bi-tags'],
     ];
 @endphp
 
