@@ -32,7 +32,7 @@ class CategoriesController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {   
+    {
         /** Validamos datos */
         $request->validate([
             'name' => 'required|max:255|min:4|unique:categories,name',
@@ -41,26 +41,25 @@ class CategoriesController extends Controller
         ]);
 
         /** Creamos el codigo  */
-        $code = strtoupper(substr($request->name, 0, 3)). '-' . strtoupper(Str::random(4));
+        $code = strtoupper(substr($request->name, 0, 3)) . '-' . strtoupper(Str::random(4));
         $parent = null;
 
-        if($request->category){
+        if ($request->category) {
             $parent  = Category::where('name', $request->category)->first();
-        } 
+        }
 
         /** Creamos Categoria */
         Category::create([
             'name' => $request->name,
             'code' => $code,
             'description' => $request->description,
-            'parent_id' => $parent?->id 
+            'parent_id' => $parent?->id
 
         ]);
 
 
-        
-        return back()->with('success', 'Categoría creada correctamente');
 
+        return back()->with('success', 'Categoría creada correctamente');
     }
 
     /**
@@ -75,8 +74,18 @@ class CategoriesController extends Controller
      * Show the form for editing the specified resource.
      */
     public function edit(string $id)
-    {
-        //
+    {   
+        /** Obtenemos todas las categorias */
+        $categories = Category::all();
+
+        /** Obtenemos todas las categorias si es padre filtramos sus hijos y si no su padre */
+        if (Category::findOrFail($id)->parent_id == null) {
+            $category = Category::with('children')->findOrFail($id);
+        } else {
+            $category = Category::with('parent')->findOrFail($id);
+        }
+
+        return view('categories.edit', compact('category', 'categories'));
     }
 
     /**
