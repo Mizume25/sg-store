@@ -42,18 +42,13 @@ class CategoriesController extends Controller
 
         /** Creamos el codigo  */
         $code = strtoupper(substr($request->name, 0, 3)) . '-' . strtoupper(Str::random(4));
-        $parent = null;
-
-        if ($request->category) {
-            $parent  = Category::where('name', $request->category)->first();
-        }
 
         /** Creamos Categoria */
         Category::create([
-            'name' => $request->name,
+            'name' => strtolower($request->name),
             'code' => $code,
             'description' => $request->description,
-            'parent_id' => $parent?->id
+            'parent_id' => $request->category ?? null
 
         ]);
 
@@ -80,7 +75,7 @@ class CategoriesController extends Controller
 
         /** Obtenemos todas las categorias si es padre filtramos sus hijos y si no su padre */
         if (Category::findOrFail($id)->parent_id == null) {
-            $category = Category::with('children')->findOrFail($id);
+            $category = Category::with('childrens')->findOrFail($id);
         } else {
             $category = Category::with('parent')->findOrFail($id);
         }
@@ -93,7 +88,25 @@ class CategoriesController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'name' => 'required|max:255|min:4|unique:categories,name,' . $id,
+            'description' => 'required|max:500',
+            'category' => 'nullable|exists:categories,id',
+        ]);
+
+        // Encontramos la categoria a modificar
+        $category = Category::findOrFail($id);
+
+        // Modificamos cambios del formulario
+        $category->update([
+            'name' => strtolower($request->name),
+            'description' => $request->description,
+            'parent_id' => $request->category ?? null
+        ]);
+
+
+        //retornamos
+        return back()->with('success', 'Categoría modificada correctamente');
     }
 
     /**
@@ -101,6 +114,18 @@ class CategoriesController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+         $category = Category::findOrFail($id);
+        
+        //Borramos hijas
+        if($category->paren_id == null ){
+            Category::where('parent_id', $category->id)->delete();
+
+        }
+
+        //Borramos categorias
+        $category->delete();
+
+         //retornamos
+        return back()->with('success', 'Categoría borradas correctamente');
     }
 }

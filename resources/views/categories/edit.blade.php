@@ -12,7 +12,7 @@
      <div class="d-flex justify-content-center">
          <div class="card w-50">
              <div class="card-body">
-                 <form action="{{ route('categories.update', $category->id) }}" method="POST">
+                 <form action="{{ route('categories.update', $category->id) }}" method="POST"  id="editForm" >
                      @csrf
                      @method('PUT')
 
@@ -38,11 +38,11 @@
                      </div>
 
                      {{-- Subcategorias --}}
-                     @if ($category->parent_id == null && $category->children->count() > 0)
+                     @if ($category->parent_id == null && $category->childrens->count() > 0)
                          <div class="mb-3">
                              <x-input-label :value="__('Subcategorías')" />
                              <ul class="list-group mt-1">
-                                 @foreach ($category->children as $child)
+                                 @foreach ($category->childrens as $child)
                                      <li class="list-group-item d-flex justify-content-between align-items-center">
                                          {{ $child->name }}
                                          <a href="{{ route('categories.edit', $child->id) }}"
@@ -79,7 +79,7 @@
                              data-bs-target="#confirmModal">
                              Actualizar
                          </button>
-                         <a href="{{ route('categories.index') }}" class="btn btn-secondary btn-lg">Cancelar</a>
+                         <a href="{{ route('categories.create') }}" class="btn btn-secondary btn-lg">Cancelar</a>
                      </div>
 
 
@@ -90,7 +90,9 @@
  @endsection
 
  {{-- Modal confirmacion --}}
+ 
  <div class="modal fade" id="confirmModal" tabindex="-1">
+    
      <div class="modal-dialog">
          <div class="modal-content">
              <div class="modal-header">
@@ -102,7 +104,7 @@
              </div>
              <div class="modal-footer">
                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                 <button type="submit" class="btn btn-dark" form="editForm">Confirmar</button>
+                  <button type="submit" form="editForm" class="btn btn-dark">Confirmar</button>
              </div>
          </div>
      </div>
