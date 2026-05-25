@@ -1,12 +1,12 @@
 [
-  { "product": "Manzana Fuji", "categories": ["frutas", "manzanas"] },
-  { "product": "Manzana Golden", "categories": ["frutas", "manzanas"] },
-  { "product": "Pera Conferencia", "categories": ["frutas", "peras"] },
-  { "product": "Pera Williams", "categories": ["frutas", "peras"] },
-  { "product": "Zanahoria Baby", "categories": ["verduras", "zanahorias"] },
-  { "product": "Zanahoria Rallada", "categories": ["verduras", "zanahorias"] },
-  { "product": "Lechuga Romana", "categories": ["verduras", "lechugas"] },
-  { "product": "Lechuga Iceberg", "categories": ["verduras", "lechugas"] },
+  { "product": "Manzana Fuji", "categories": ["frutas", "manzana"] },
+  { "product": "Manzana Golden", "categories": ["frutas", "manzana"] },
+  { "product": "Pera Conferencia", "categories": ["frutas", "pera"] },
+  { "product": "Pera Williams", "categories": ["frutas", "pera"] },
+  { "product": "Zanahoria Baby", "categories": ["verduras", "zanahoria"] },
+  { "product": "Zanahoria Rallada", "categories": ["verduras", "zanahoria"] },
+  { "product": "Lechuga Romana", "categories": ["verduras", "lechuga"] },
+  { "product": "Lechuga Iceberg", "categories": ["verduras", "lechuga"] },
   { "product": "Pollo Entero", "categories": ["carnes", "pollo"] },
   { "product": "Muslo de Pollo", "categories": ["carnes", "pollo"] },
   { "product": "Pechuga de Pollo", "categories": ["carnes", "pollo"] },
@@ -14,6 +14,6 @@
   { "product": "Chuleta de Ternera", "categories": ["carnes", "ternera"] },
   { "product": "Leche Desnatada", "categories": ["lacteos", "leche"] },
   { "product": "Leche Sin Lactosa", "categories": ["lacteos", "leche"] },
-  { "product": "Queso Manchego", "categories": ["lacteos", "quesos"] },
-  { "product": "Queso Brie", "categories": ["lacteos", "quesos"] }
+  { "product": "Queso Manchego", "categories": ["lacteos", "queso"] },
+  { "product": "Queso Brie", "categories": ["lacteos", "queso"] }
 ]
