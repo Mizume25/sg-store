@@ -2,15 +2,15 @@
   {
     "name": "frutas",
     "children": [
-      { "name": "manzanas" },
-      { "name": "peras" }
+      { "name": "manzana" },
+      { "name": "pera" }
     ]
   },
   {
     "name": "verduras",
     "children": [
-      { "name": "zanahorias" },
-      { "name": "lechugas" }
+      { "name": "zanahoria" },
+      { "name": "lechuga" }
     ]
   },
   {
@@ -24,7 +24,7 @@
     "name": "lacteos",
     "children": [
       { "name": "leche" },
-      { "name": "quesos" }
+      { "name": "queso" }
     ]
   }
 ]
