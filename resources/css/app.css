@@ -5,3 +5,12 @@
 @tailwind utilities;
 
 
+.product-img {
+    display: none;
+    width: 100%;
+    border-radius: 8px;
+}
+
+.product-img.active {
+    display: block;
+}
