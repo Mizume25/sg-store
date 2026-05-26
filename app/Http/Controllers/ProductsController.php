@@ -21,9 +21,12 @@ class ProductsController extends Controller
     public function create()
     {
         $categories = Category::all();
-        
-    
-        return view('products.create' ,compact('categories'));
+
+        if (request()->wantsJson()) {
+            return response()->json($categories);
+        }
+
+        return view('products.create', compact('categories'));
     }
 
     /**
