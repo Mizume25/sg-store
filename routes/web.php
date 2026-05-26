@@ -7,7 +7,9 @@ use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/',[AuthenticatedSessionController::class, 'create'])->name('auth.login');
+Route::get('/', function() {
+    return redirect()->route('login');
+});
 
 /** Crear Vista de Home */
 Route::get('/dashboard', [CatalogController::class, 'home'])->middleware(['auth', 'verified'])->name('dashboard');
