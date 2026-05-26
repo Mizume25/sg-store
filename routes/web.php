@@ -3,10 +3,13 @@
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/',[AuthenticatedSessionController::class, 'create'])->name('auth.login');
+Route::get('/', function() {
+    return redirect()->route('login');
+});
 
 /** Crear Vista de Home */
 Route::get('/dashboard', [CatalogController::class, 'home'])->middleware(['auth', 'verified'])->name('dashboard');
@@ -25,6 +28,8 @@ Route::middleware('auth')->group(function () {
 
     /** Uso de resources para gestionar el CRUD completo de categories*/
     Route::resource('categories', CategoriesController::class);
+
+    Route::resource('products', ProductsController::class);
 
 
 });
