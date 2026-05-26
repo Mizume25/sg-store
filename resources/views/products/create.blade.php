@@ -47,7 +47,7 @@
                     <div class="mb-3">
                         <x-input-label for="category" :value="__('Subcategorias')" />
                         {{-- Selecionas las categorias  padre --}}
-                        <select name="category" id="subcategory" class="form-select cursor-pointer">
+                        <select name="subcategory" id="subcategory" class="form-select cursor-pointer">
 
                         </select>
                     </div>
