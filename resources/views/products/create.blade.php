@@ -43,35 +43,58 @@
                         </select>
                     </div>
 
-                    {{-- Subcategorias --}}
+                    {{-- Subcategoria --}}
                     <div class="mb-3">
-                        <x-input-label :value="__('Subcategorías')" />
-                        <small class="text-muted d-block mb-2">Selecciona al menos una subcategoría</small>
-                        <div class="d-flex flex-wrap gap-3">
-                            @foreach ($categories as $category)
-                                @if ($category->parent_id != null)
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="subcategories[]"
-                                            value="{{ $category->id }}" id="sub-{{ $category->id }}">
-                                        <label class="form-check-label" for="sub-{{ $category->id }}">
-                                            {{ $category->name }}
-                                        </label>
-                                    </div>
-                                @endif
-                            @endforeach
-                        </div>
-                        <x-input-error :messages="$errors->get('subcategories')" class="mt-2" />
+                        <x-input-label for="category" :value="__('Subcategorias')" />
+                        {{-- Selecionas las categorias  padre --}}
+                        <select name="subcategory" id="subcategory" class="form-select cursor-pointer">
+
+                        </select>
                     </div>
 
+
                     {{-- Tarifas --}}
-                    <div class="mb-3">
+                    <div class="mb-4">
                         <x-input-label :value="__('Tarifas')" />
-                        <small class="text-muted d-block mb-2">Requiere Minimo de una tarifa reglamentaria</small>
-                        <div class="d-flex flex-wrap gap-3">
-                            <x-text-input id="price" class="form-control" type="number" name="price"
-                                :value="old('price')" step="0.01" min="0" required />
-                            <x-input-error :messages="$errors->get('price')" class="mt-2" />
+                        <small class="text-muted d-block mb-2">Requiere mínimo una tarifa reglamentaria</small>
+
+                        <div id="rates-container">
+                            <div class="row g-2 mb-2 rate-item" id="rate-0">
+                                <div class="col">
+                                    <input type="number" class="form-control" name="rates[0][price]" placeholder="Precio €"
+                                        step="0.01" min="0" required>
+                                </div>
+                                <div class="col">
+                                    <input type="date" class="form-control" name="rates[0][start_date]" required>
+                                </div>
+                                <div class="col">
+                                    <input type="date" class="form-control" name="rates[0][end_date]" required>
+                                </div>
+                            </div>
                         </div>
+
+                        <div class="flex flex-row gap-3 justify-content-start">
+
+                            <button type="button" class="btn btn-outline-success btn-sm mt-2" id="add-rate">
+                                <i class="bi bi-plus-circle"></i> Añadir tarifa
+                            </button>
+
+                            <button type="button" class="btn btn-outline-dark btn-sm mt-2" id="remove-rate">
+                                <i class="bi bi-dash-circle"></i> Quitar tarifa
+                            </button>
+                        </div>
+
+                    </div>
+
+                    <div class="mb-3">
+                        <x-input-label :value="__('Imágenes')" />
+                        <small class="text-muted d-block mb-2">Máximo 2 imágenes</small>
+
+                        <div class="d-flex gap-2">
+                            <input type="file" class="form-control" name="image1" accept="image/*" required>
+                            <input type="file" class="form-control" name="image2" accept="image/*">
+                        </div>
+                        <x-input-error :messages="$errors->get('images')" class="mt-2" />
                     </div>
 
                     {{-- Botones --}}
@@ -83,61 +106,9 @@
             </div>
         </div>
     </div>
+@endsection
 
-    {{-- Modal de subcategorias --}}
-    <div class="modal fade" id="modalCategorias" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Subcategorias existentes</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <ul class="list-group">
-                        @foreach ($categories as $category)
-                            @if ($category->parent_id != null)
-                                <li class="list-group-item cursor-pointer">{{ $category->name }}</li>
-                            @endif
-                        @endforeach
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    {{-- Modal de listas --}}
-    <div class="modal fade" id="editCategorias" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Categorias / Subcategorias existentes</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <ul class="list-group">
-                        @foreach ($categories as $category)
-                            <li
-                                class="list-group-item d-flex justify-content-between align-items-center {{ $category->parent_id ? 'ps-4 text-muted fst-italic' : 'fw-bold' }}">
-                                {{ $category->name }}
-                                <div class="d-flex gap-1">
-                                    <a href="{{ route('categories.edit', $category->id) }}"
-                                        class="btn btn-sm btn-outline-primary">
-                                        <i class="bi bi-pencil"></i>
-                                    </a>
-                                    <form action="{{ route('categories.destroy', $category->id) }}" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-outline-danger"
-                                            onclick="return confirm('¿Eliminar {{ $category->name }}?')">
-                                            <i class="bi bi-trash"></i>
-                                        </button>
-                                    </form>
-                                </div>
-                            </li>
-                        @endforeach
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
+@section('js')
+    @vite('resources/js/products.js');
 @endsection
