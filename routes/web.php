@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -25,6 +26,8 @@ Route::middleware('auth')->group(function () {
 
     /** Uso de resources para gestionar el CRUD completo de categories*/
     Route::resource('categories', CategoriesController::class);
+
+    Route::resource('products', ProductsController::class);
 
 
 });

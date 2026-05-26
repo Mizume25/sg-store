@@ -1,8 +1,9 @@
 @php
     /** Iteraremos los campos */
     $items = [
-        ['label' => 'Dashboard', 'route' => 'dashboard', 'icon' => 'bi bi-speedometer2'],
+        ['label' => 'Catalogo', 'route' => 'dashboard', 'icon' => 'bi bi-speedometer2'],
         ['label' => 'Gestionar Categorias', 'route' => 'categories.create', 'icon' => 'bi bi-tags'],
+        ['label' => 'Añadir Producto', 'route' => 'products.create', 'icon' => 'bi bi-box-seam'],
     ];
 @endphp
 
