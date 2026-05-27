@@ -83,6 +83,7 @@ export const showDetail = (product) => {
     editBTN.href = `/products/${product.id}/edit`;
     deleteBTN.action = `/products/${product.id}`;
     
+    startSlideshow();
 
 
 }
