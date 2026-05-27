@@ -55,14 +55,16 @@ class ProductsController extends Controller
             'image2' => 'nullable|image|mimes:jpg,png,webp|max:2048',
         ]);
 
-        
+
 
         /** Creamos el codigo */
         $code = strtoupper(substr($request->name, 0, 3)) . '-' . strtoupper(Str::random(4));
-        
+
+        $category = Category::find($request->category);
+        $subcategory = Category::find($request->subcategory);
 
         /** Creamos la ruta de imagenes */
-        $path = $request->category . '/' . $request->subcategory;
+        $path = $category->name . '/' . $subcategory->name;
 
         /** Creamos el producto */
         $product = Product::create([
@@ -100,22 +102,33 @@ class ProductsController extends Controller
      */
     private function handleDirectory(UploadedFile $image1, ?UploadedFile $image2, string $path, int $id): void
     {
-        if (!Storage::disk('public')->exists($path)) {
-            Storage::disk('public')->makeDirectory($path);
+        /** Apuntamos carpeta destino */
+        $dest = public_path($path);
+
+        /** En caso de que no exista crearemos el directorio */
+        if (!file_exists($dest)) {
+            mkdir($dest, 0755, true);
         }
 
-        $image1->storeAs($path, $image1->getClientOriginalName(), 'public');
+        /** Nombre único */
+        $name1 = uniqid() . '.' . $image1->getClientOriginalExtension();
 
+        /** Ponemos las imagenes */
+        $image1->move($dest, $name1);
+
+        /** guaradamos nombres de rutas */
         ProductsImage::create([
-            'path' => $path . '/' . $image1->getClientOriginalName(),
+            'path' => $path . '/' . $name1, // Guardamos "lacteos/quesos/nombre.jpg" en la BD
             'product_id' => $id
         ]);
 
+        /** Opcional */
         if ($image2) {
-            $image2->storeAs($path, $image2->getClientOriginalName(), 'public');
+            $name2 = uniqid() . '.' . $image2->getClientOriginalExtension();
+            $image2->move($dest, $name2);
 
             ProductsImage::create([
-                'path' => $path . '/' . $image2->getClientOriginalName(),
+                'path' => $path . '/' . $name2,
                 'product_id' => $id
             ]);
         }

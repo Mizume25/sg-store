@@ -1,6 +1,14 @@
 @extends('layouts.app')
 @section('content')
     <h1 class="mb-3">Crear Producto</h1>
+    @if ($errors->any())
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    @endif
+
     {{-- Mensaje de Creacion exitosa --}}
     @if (session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -9,10 +17,12 @@
         </div>
     @endif
 
+
+
     <div class="d-flex justify-content-center">
         <div class="card w-50">
             <div class="card-body">
-                <form action="{{ route('products.store') }}" method="POST">
+                <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
 
                     {{-- Campo Nombre Producto --}}
@@ -62,13 +72,15 @@
                             <div class="row g-2 mb-2 rate-item" id="rate-0">
                                 <div class="col">
                                     <input type="number" class="form-control" name="rates[0][price]" placeholder="Precio €"
-                                        step="0.01" min="0" required>
+                                        step="0.01" min="0.01" required>
                                 </div>
                                 <div class="col">
-                                    <input type="date" class="form-control" name="rates[0][start_date]" required>
+                                    <input type="date" class="form-control" name="rates[0][start_date]" id="start-0"
+                                        required>
                                 </div>
                                 <div class="col">
-                                    <input type="date" class="form-control" name="rates[0][end_date]" required>
+                                    <input type="date" class="form-control" name="rates[0][end_date]" id="end-0"
+                                        required>
                                 </div>
                             </div>
                         </div>
