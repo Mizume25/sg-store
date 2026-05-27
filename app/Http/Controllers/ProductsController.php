@@ -153,8 +153,11 @@ class ProductsController extends Controller
      * Show the form for editing the specified resource.
      */
     public function edit(string $id)
-    {
-        //
+    {   
+        /** Encontramos el producto con todas sus relaciones */
+        $product = Product::with('categories', 'rates', 'images')->find($id);
+
+        return view('products.edit',compact('product'));
     }
 
     /**
