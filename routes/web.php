@@ -26,10 +26,15 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    /** Apis */
+    Route::get('categories/json', [CategoriesController::class, 'apiCategories'])->name('categories.json');
+
     /** Uso de resources para gestionar el CRUD completo de categories*/
     Route::resource('categories', CategoriesController::class);
 
     Route::resource('products', ProductsController::class);
+
+    
 
 
 });

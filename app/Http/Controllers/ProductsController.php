@@ -8,7 +8,6 @@ use App\Models\ProductsImage;
 use App\Models\Rate;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 
@@ -28,10 +27,6 @@ class ProductsController extends Controller
     public function create()
     {
         $categories = Category::all();
-
-        if (request()->wantsJson()) {
-            return response()->json($categories);
-        }
 
         return view('products.create', compact('categories'));
     }
@@ -157,7 +152,13 @@ class ProductsController extends Controller
         /** Encontramos el producto con todas sus relaciones */
         $product = Product::with('categories', 'rates', 'images')->find($id);
 
-        return view('products.edit',compact('product'));
+         if (request()->wantsJson()) {
+            return response()->json($product);
+        }
+
+        $categories = Category::all();
+
+        return view('products.edit',compact('product', 'categories'));
     }
 
     /**
