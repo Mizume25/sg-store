@@ -1,14 +1,14 @@
 /** Card donde se mostrara el producto */
-export const display = document.getElementById('detail-panel');
-export const card = document.getElementById('select');
-export const name = card.querySelector('#name');
-export const code = card.querySelector('#code');
-export const description = card.querySelector('#description');
-export const categories = card.querySelector('#categories');
-export const images = card.querySelector('#imagenes');
-export const rates = card.querySelector('#prices');
-export const editBTN = card.querySelector('#edit-product');
-export const deleteBTN = card.querySelector('#delte-product');
+export const display = document?.getElementById('detail-panel');
+export const card = document?.getElementById('select');
+export const name = card?.querySelector('#name');
+export const code = card?.querySelector('#code');
+export const description = card?.querySelector('#description');
+export const categories = card?.querySelector('#categories');
+export const images = card?.querySelector('#imagenes');
+export const rates = card?.querySelector('#prices');
+export const editBTN = card?.querySelector('#edit-product');
+export const deleteBTN = card?.querySelector('#delte-product');
 
 
 
@@ -71,7 +71,7 @@ export const startSlideshow = () => {
 /** Renderizado de card */
 export const showDetail = (product) => {
     slideIndex = 0;
-    
+    if (!card) return;
     /** Renderizamos contenido  */
     images.innerHTML = renderImages(product.images);
     name.textContent = product.name;

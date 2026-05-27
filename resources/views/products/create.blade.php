@@ -12,7 +12,7 @@
 
 
 
-    <div class="d-flex justify-content-center">
+    <div class="d-flex justify-content-center" >
         <div class="card w-50">
             <div class="card-body">
                 <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
