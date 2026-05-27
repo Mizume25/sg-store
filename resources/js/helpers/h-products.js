@@ -9,6 +9,8 @@ export const parent = document.getElementById('category');
 export const plusBTN = document.getElementById('add-rate');
 export const lessBTN = document.getElementById('remove-rate');
 export const tarifasContent = document.getElementById('rates-container');
+export const items = document.querySelectorAll('.rate-item');
+
 
 
 /**
@@ -38,23 +40,25 @@ export const loadCategories = async () => {
 }
 
 
+
+
 /**
  * @description Renderiza 1 campo completo de tarifas
  */
-export const loadField = (count) => {
+export const loadField = (id) => {
     return (
-        `<div class="row g-2 mb-2 rate-item" id=rate-${count}>
+        `<div class="row g-2 mb-2 rate-item" id=rate-${id}>
             <div class="col">
-                    <input type="number" class="form-control" name="rates[${count}][price]" placeholder="Precio €"
+                    <input type="number" class="form-control" name="rates[${id}][price]" placeholder="Precio €"
                                         step="0.01" min="0" required>
             </div>
 
             <div class="col">
-                    <input type="date" class="form-control" name="rates[${count}][start_date]" required>
+                    <input type="date" class="form-control" name="rates[${id}][start_date]" id="start-${id}" required>
             </div>
 
             <div class="col">
-                    <input type="date" class="form-control" name="rates[${count}][end_date]" required>
+                    <input type="date" class="form-control" name="rates[${id}][end_date]" id="end-${id}" required>
             </div>
         </div>`
     )
@@ -63,11 +67,10 @@ export const loadField = (count) => {
 /**
  * @description Remueve 1 campo de tarifas
  */
-export const removeField = (count) => {
-
-    if (count === 0) return alert('Debes tener al menos 1 tarifa para este producto');
-
-    document.getElementById(`rate-${count}`).remove();
+export const removeField = () => {
+    const items = document.querySelectorAll('.rate-item');
+    if (items.length <= 1) return alert('Debes tener al menos 1 tarifa');
+    items[items.length - 1].remove();
 
 }
 
@@ -76,9 +79,18 @@ export const changeSubCategory = (categories, e) => {
     const options = categories
         .filter(c => c.parent_id == e.target.value)
         .map(c => `<option value="${c.id}">${c.name}</option>`);
-    
+
     subcategory.innerHTML = options.join('');
-    
+
     return options.length;
 }
 
+
+
+export const isValidDate = (startDate, endDate) => {
+        const diffMs = new Date(endDate) - new Date(startDate); 
+        const diffDays = diffMs / (1000 * 60 * 60 * 24);         
+        const diffMonths = diffDays / 30.44;
+
+        return diffMonths < 2;
+}
