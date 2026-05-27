@@ -1,6 +1,13 @@
 @extends('layouts.app')
 @section('content')
-    <h1 class="mb-3">Crear Producto</h1>
+    <h1 class="mb-3">Editar Producto</h1>
+    @if ($errors->any())
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    @endif
 
     {{-- Mensaje de Creacion exitosa --}}
     @if (session('success'))
