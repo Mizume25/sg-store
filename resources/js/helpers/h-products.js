@@ -3,14 +3,19 @@
  */
 
 
-/** Variables */
-export const subcategory = document.getElementById('subcategory');
-export const parent = document.getElementById('category');
-export const plusBTN = document.getElementById('add-rate');
-export const lessBTN = document.getElementById('remove-rate');
-export const tarifasContent = document.getElementById('rates-container');
-export const items = document.querySelectorAll('.rate-item');
+/** Variables Compartidas de edit.blade.php creat.blade.php -> products */
+export const subcategory = document?.getElementById('subcategory');
+export const parent = document?.getElementById('category');
+export const plusBTN = document?.getElementById('add-rate');
+export const lessBTN = document?.getElementById('remove-rate');
+export const tarifasContent = document?.getElementById('rates-container');
+export const items = document?.querySelectorAll('.rate-item');
 
+
+/** Variables exclusivas de edit.blade.php */
+export const subcategories = document?.getElementById('subcategories');
+const obj = document?.querySelector('[data-product]') ?? null;
+export const product = obj ? JSON.parse(obj.dataset.product) : null;
 
 
 /**
@@ -27,10 +32,14 @@ export const items = document.querySelectorAll('.rate-item');
 export const loadCategories = async () => {
     try {
 
-        const response = await fetch('/products/create', {
+        const response = await fetch('/categories/json', {
             headers: { 'Accept': 'application/json' }
         });
+
+
         const categories = await response.json();
+
+      
 
         return categories;
 
@@ -38,6 +47,9 @@ export const loadCategories = async () => {
         console.log(e);
     }
 }
+
+
+
 
 
 
@@ -75,12 +87,29 @@ export const removeField = () => {
 }
 
 
-export const changeSubCategory = (categories, e) => {
+export const changeSubCategory = (categories, e, currentCategories) => {
     const options = categories
         .filter(c => c.parent_id == e.target.value)
         .map(c => `<option value="${c.id}">${c.name}</option>`);
 
     subcategory.innerHTML = options.join('');
+    
+    if(subcategories){
+        const checkbox = categories
+        .filter(c => c.parent_id == e.target.value)
+        .map(c => `
+            <div class="form-check mb-2 ms-3 ">
+                    <input type="checkbox" name="subcategories[]" value=${c.id} class="form-check-input ${(currentCategories ?? []).some(pc => pc.id == c.id) ? 'checked' : ''} ">
+                    <label class="form-check-label">${c.name}</label>
+            </div>`);
+
+        subcategories.innerHTML = checkbox.join('');
+
+        
+    }
+
+    
+    
 
     return options.length;
 }
