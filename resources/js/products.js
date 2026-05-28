@@ -60,7 +60,7 @@ if (pr.parent) {
 /** Events */
 /** Evento de alternar categoria hija */
 pr.parent?.addEventListener('change', (e) => {
-    const count = pr.changeSubCategory(categories, e, pr.product.categories ?? null);
+    const count = pr.changeSubCategory(categories, e, pr.product?.categories ?? null);
     if (count === 0) {
         pr.subcategory.disabled = true;
         pr.subcategory.innerHTML = '<option>Se requiere minimo 1 subcategoria por producto</option>';
