@@ -67,11 +67,11 @@
                             <div class="row g-2 mb-2 rate-item" id="rate-{{ $index }}">
                                 <div class="col">
                                     <input type="number" name="rates[{{ $index }}][price]"
-                                        value="{{ $rate->price }}">
+                                        value="{{ $rate->price }}" step="0.01" min="0" required>
                                 </div>
                                 <div class="col">
                                     <input type="date" name="rates[{{ $index }}][start_date]"
-                                        value="{{ $rate->start_date }}">
+                                        value="{{ $rate->start_date }}" >
                                 </div>
                                 <div class="col">
                                     <input type="date" name="rates[{{ $index }}][end_date]"

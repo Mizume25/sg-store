@@ -8,7 +8,6 @@ export const parent = document?.getElementById('category');
 export const plusBTN = document?.getElementById('add-rate');
 export const lessBTN = document?.getElementById('remove-rate');
 export const tarifasContent = document?.getElementById('rates-container');
-export const items = document?.querySelectorAll('.rate-item');
 
 /** 
  * @function Api 
@@ -16,9 +15,7 @@ export const items = document?.querySelectorAll('.rate-item');
  */
 export const loadCategories = async () => {
     try {
-        const response = await fetch('/categories/json', {
-            headers: { 'Accept': 'application/json' }
-        });
+        const response = await fetch('/categories/json');
         return await response.json();
     } catch (e) {
         console.log(e);
@@ -49,7 +46,7 @@ export const loadField = (id) => {
  * @description Remueve 1 campo de tarifas
  */
 export const removeField = () => {
-    const items = document.querySelectorAll('.rate-item');
+    const items = document?.querySelectorAll('.rate-item');
     if (items.length <= 1) return alert('Debes tener al menos 1 tarifa');
     items[items.length - 1].remove();
 }

@@ -4,6 +4,7 @@ const categories = await pr.loadCategories();
 
 /** Filtramos subcategorias relativas al padre seleccionado */
 if (pr.parent) {
+    
     pr.subcategory.innerHTML = categories
         .filter(c => c.parent_id == 1)
         .map(c => `<option value="${c.id}">${c.name}</option>`)
@@ -23,7 +24,7 @@ pr.parent?.addEventListener('change', (e) => {
 
 /** Aumentar o quitar tarifas */
 pr.plusBTN?.addEventListener('click', () => {
-    let id = pr.items.length;
+    let id = document?.querySelectorAll('.rate-item').length;
     pr.tarifasContent.innerHTML += pr.loadField(id);
 });
 
