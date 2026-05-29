@@ -1,8 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
- <h1 class="mb-3">Editar Imagenes de {{ $product->name }}</h1>
-
  {{-- Mensaje de Creacion exitosa --}}
     @if (session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -10,8 +8,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
     @endif
-
-
+ <h1 class="mb-3">Editar Imagenes de {{ $product->name }}</h1>
     <div class="mb-3">
         @foreach ($product->images as $image)
             <div class="d-flex align-items-center gap-3 mb-2 p-2 border rounded">
@@ -50,5 +47,8 @@
                 </label>
             </form>
         </div>
+        <a href="{{ route('products.edit', $product->id) }}" class="btn btn-outline-secondary btn-sm mb-3">
+                     <i class="bi bi-arrow-left"></i> Volver
+                 </a>
     </div>
 @endsection
