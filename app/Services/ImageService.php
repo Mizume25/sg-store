@@ -107,4 +107,14 @@ class ImageService
 
         return $parent->name . '/' . $children->name;
     }
+
+
+    public function currentPath(int $productId): ?string
+    {
+        $image = ProductsImage::where('product_id', $productId)->first();
+
+        if (!$image) return null;
+
+        return implode('/', array_slice(explode('/', $image->path), 0, 2));
+    }
 }

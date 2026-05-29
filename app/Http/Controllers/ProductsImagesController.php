@@ -15,17 +15,16 @@ class ProductsImagesController extends Controller
     /**
      * Creacion de nueva imagen
      */
-    public function store(Request $request, int $id)
+    public function store(Request $request, int $productId)
     {
         $request->validate([
             'image' => 'required|image|mimes:jpg,png,webp|max:2048',
         ]);
 
 
-        $image = ProductsImage::where('product_id', $id)->first();
-        $path = implode('/', array_slice(explode('/', $image->path), 0, 2));
+        $path = $this->imageService->currentPath($productId);
 
-        $this->imageService->upload($request->file('image'), $path, $id);
+        $this->imageService->upload($request->file('image'), $path, $productId);
 
         return back()->with('success', 'Imagen creada correctamente');
     }
@@ -46,14 +45,13 @@ class ProductsImagesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function override(Request $request, string $productId, string $id)
+    public function override(Request $request, int $productId, string $id)
     {
         $request->validate([
             'image' => 'required|image|mimes:jpg,png,webp|max:2048',
         ]);
 
-        $image = ProductsImage::where('product_id', $productId)->first();
-        $path = implode('/', array_slice(explode('/', $image->path), 0, 2));
+        $path = $this->imageService->currentPath($productId);
 
         $this->imageService->replace($id, $request->file('image'), $path, $productId);
 

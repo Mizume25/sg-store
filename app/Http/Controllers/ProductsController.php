@@ -148,11 +148,9 @@ class ProductsController extends Controller
             'subcategories.*' => 'exists:categories,id',
         ]);
 
-        $product = Product::find($id);
+        $product = Product::findOrFail($id);
 
-        /** Guardamos old path antes de tocar nada */
-        $image = ProductsImage::where('product_id', $product->id)->first();
-        $oldPath = implode('/', array_slice(explode('/', $image->path), 0, 2));
+        $oldPath = $this->imageService->currentPath($product->id);
 
         /** Calculamos new path */
         $newPath = $this->imageService->makePath($request->category, $request->subcategory);
@@ -173,17 +171,10 @@ class ProductsController extends Controller
         $this->imageService->reorganize($product, $oldPath, $newPath);
 
         /** Eliminamos antiguas tarifas */
-        Rate::where('product_id', $product->id)->delete();
+        $product->rates()->delete();
 
         /** Creamos tarifas nuevas */
-        foreach ($request->rates as $rate) {
-            Rate::create([
-                'price' => $rate['price'],
-                'start_date' => $rate['start_date'],
-                'end_date' => $rate['end_date'],
-                'product_id' => $product->id
-            ]);
-        }
+        $product->rates()->createMany($request->rates);
 
         return back()->with('success', 'Producto editado correctamente');
     }
@@ -194,7 +185,26 @@ class ProductsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id) {}
+    public function destroy(string $id) 
+    {   
+        $product = Product::findOrFail($id);
+
+        $rates = Rate::where('product_id', $product->id)->get();
+
+        foreach ($rates as $rate)
+        {   
+            $rate->delete();
+        }
+
+        $product->categories()->detach(); 
+
+        $this->imageService->remove($product->id);
+
+        $product->delete();
+
+        return back()->with('success', 'Producto Eliminado Correctamente');
+
+    }
 
 
     public function apiProduct(Request $request, int $id)
