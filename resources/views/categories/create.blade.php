@@ -1,13 +1,21 @@
 @extends('layouts.app')
 @section('content')
-    <h1 class="mb-3">Crear Categoria</h1>
-    {{-- Mensaje de Creacion exitosa --}}
+ {{-- Mensaje de Creacion exitosa --}}
     @if (session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             {{ session('success') }}
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
     @endif
+
+    @if (session('error'))
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ session('error') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    @endif
+    <h1 class="mb-3">Crear Categoria</h1>
+   
 
     <div class="d-flex justify-content-center">
         <div class="card w-50">
@@ -105,7 +113,8 @@
                                     <form action="{{ route('categories.destroy', $category->id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-outline-danger"  onclick="return confirm('¿Eliminar {{ $category->name }}?')">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger"
+                                            onclick="return confirm('¿Eliminar {{ $category->name }}?')">
                                             <i class="bi bi-trash"></i>
                                         </button>
                                     </form>

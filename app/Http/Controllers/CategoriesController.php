@@ -116,23 +116,22 @@ class CategoriesController extends Controller
     {
         $category = Category::findOrFail($id);
 
-        //Borramos hijas
-        if ($category->paren_id == null) {
-            Category::where('parent_id', $category->id)->delete();
+        if ($category->products()->exists()) {
+            return back()->with('error', 'No se puede eliminar, tiene productos asociados');
         }
 
-        //Borramos categorias
+ 
+        if ($category->parent_id === null) Category::where('parent_id', $category->id)->delete();
+        
         $category->delete();
 
-        //retornamos
-        return back()->with('success', 'Categoría borradas correctamente');
+        return back()->with('success', 'Categoría borrada correctamente');
     }
 
 
-    public function apiCategories (Request $request)
+    public function apiCategories(Request $request)
     {
-         $categories = Category::all();
+        $categories = Category::all();
         return response()->json($categories);
-
     }
 }

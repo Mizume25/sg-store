@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductsImage;
 use App\Models\Rate;
+use App\Services\ImageService;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Str;
@@ -13,6 +14,8 @@ use Illuminate\Support\Str;
 
 class ProductsController extends Controller
 {
+
+    public function __construct(private ImageService $imageService) {}
     /**
      * Display a listing of the resource.
      */
@@ -51,15 +54,13 @@ class ProductsController extends Controller
         ]);
 
 
+        /** Creamos path */
+        $path = $this->imageService->makePath($request->category, $request->subcategory);
+
+
 
         /** Creamos el codigo */
         $code = strtoupper(substr($request->name, 0, 3)) . '-' . strtoupper(Str::random(4));
-
-        $category = Category::find($request->category);
-        $subcategory = Category::find($request->subcategory);
-
-        /** Creamos la ruta de imagenes */
-        $path = $category->name . '/' . $subcategory->name;
 
         /** Creamos el producto */
         $product = Product::create([
@@ -71,8 +72,10 @@ class ProductsController extends Controller
         /** Unimos el producto con sus categorias */
         $product->categories()->attach([$request->category, $request->subcategory]);
 
-        /** Funcion privada que gestiona directorios de imagenes */
-        $this->handleDirectory($request->file('image1'), $request->file('image2'), $path, $product->id);
+
+
+        $this->imageService->upload($request->file('image1'), $path, $product->id);
+        $this->imageService->upload($request->file('image2'), $path, $product->id);
 
         //** Creamos tarifas */
         foreach ($request->rates as $rate) {
@@ -86,47 +89,6 @@ class ProductsController extends Controller
 
         /** Volvemos */
         return back()->with('success', 'Producto creado correctamente');
-    }
-
-    /**
-     * Gestiona el directorio de imágenes 
-     * @param UploadedFile $image1 - Imagen principal (obligatoria)
-     * @param UploadedFile|null $image2 - Imagen secundaria (opcional)
-     * @param string $path - Ruta 
-     * @param int $id - ID 
-     */
-    private function handleDirectory(UploadedFile $image1, ?UploadedFile $image2, string $path, int $id): void
-    {
-        /** Apuntamos carpeta destino */
-        $dest = public_path($path);
-
-        /** En caso de que no exista crearemos el directorio */
-        if (!file_exists($dest)) {
-            mkdir($dest, 0755, true);
-        }
-
-        /** Nombre único */
-        $name1 = uniqid() . '.' . $image1->getClientOriginalExtension();
-
-        /** Ponemos las imagenes */
-        $image1->move($dest, $name1);
-
-        /** guaradamos nombres de rutas */
-        ProductsImage::create([
-            'path' => $path . '/' . $name1, // Guardamos "lacteos/quesos/nombre.jpg" en la BD
-            'product_id' => $id
-        ]);
-
-        /** Opcional */
-        if ($image2) {
-            $name2 = uniqid() . '.' . $image2->getClientOriginalExtension();
-            $image2->move($dest, $name2);
-
-            ProductsImage::create([
-                'path' => $path . '/' . $name2,
-                'product_id' => $id
-            ]);
-        }
     }
 
     /**
@@ -148,32 +110,87 @@ class ProductsController extends Controller
      * Show the form for editing the specified resource.
      */
     public function edit(string $id)
-    {   
+    {
         /** Encontramos el producto con todas sus relaciones */
         $product = Product::with('categories', 'rates', 'images')->find($id);
 
-         if (request()->wantsJson()) {
+        if (request()->wantsJson()) {
             return response()->json($product);
         }
 
         $categories = Category::all();
 
-        return view('products.edit',compact('product', 'categories'));
+        return view('products.edit', compact('product', 'categories'));
     }
+
+
+    /**
+     * Formlario para gestionar categorias relacionadas
+     */
+
+
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'name' => 'required|max:255|min:4|unique:products,name,' . $id,
+            'description' => 'required|max:500',
+            'rates' => 'required|array|min:1',
+            'rates.*.price' => 'required|numeric|min:0',
+            'rates.*.start_date' => 'required|date',
+            'rates.*.end_date' => 'required|date|after:rates.*.start_date',
+        ]);
+
+        $product = Product::findOrFail($id);
+
+        /** Actualizamos producto */
+        $product->update([
+            'name' => $request->name,
+            'description' => $request->description,
+        ]);
+
+        /** Eliminamos antiguas tarifas */
+        $product->rates()->delete();
+
+        /** Creamos tarifas nuevas */
+        $product->rates()->createMany($request->rates);
+
+        return back()->with('success', 'Producto editado correctamente');
     }
+
+
+
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
-        //
+        $product = Product::findOrFail($id);
+
+        $rates = Rate::where('product_id', $product->id)->get();
+
+        foreach ($rates as $rate) {
+            $rate->delete();
+        }
+
+        $product->categories()->detach();
+
+        $this->imageService->remove($product->id);
+
+        $product->delete();
+
+        return back()->with('success', 'Producto Eliminado Correctamente');
+    }
+
+
+    public function apiProduct(Request $request, int $id)
+    {
+        $product = Product::with('categories')->find($id);
+
+        return response()->json($product);
     }
 }

@@ -2,28 +2,12 @@
  * @fileoverview Helper que implementa funciones extendidas en product.js
  */
 
-
-/** Variables Compartidas de edit.blade.php creat.blade.php -> products */
+/** Variables Compartidas de create.blade.php y edit.blade.php */
 export const subcategory = document?.getElementById('subcategory');
 export const parent = document?.getElementById('category');
 export const plusBTN = document?.getElementById('add-rate');
 export const lessBTN = document?.getElementById('remove-rate');
 export const tarifasContent = document?.getElementById('rates-container');
-export const items = document?.querySelectorAll('.rate-item');
-
-
-/** Variables exclusivas de edit.blade.php */
-export const subcategories = document?.getElementById('subcategories');
-const obj = document?.querySelector('[data-product]') ?? null;
-export const product = obj ? JSON.parse(obj.dataset.product) : null;
-
-
-/**
- * Renderiza un campo de tarifa
- * @param {number} index - Índice del campo
- * @returns {string} HTML string
- */
-
 
 /** 
  * @function Api 
@@ -31,46 +15,28 @@ export const product = obj ? JSON.parse(obj.dataset.product) : null;
  */
 export const loadCategories = async () => {
     try {
-
-        const response = await fetch('/categories/json', {
-            headers: { 'Accept': 'application/json' }
-        });
-
-
-        const categories = await response.json();
-
-      
-
-        return categories;
-
+        const response = await fetch('/categories/json');
+        return await response.json();
     } catch (e) {
         console.log(e);
     }
 }
-
-
-
-
-
-
 
 /**
  * @description Renderiza 1 campo completo de tarifas
  */
 export const loadField = (id) => {
     return (
-        `<div class="row g-2 mb-2 rate-item" id=rate-${id}>
+        `<div class="row g-2 mb-2 rate-item" id="rate-${id}">
             <div class="col">
-                    <input type="number" class="form-control" name="rates[${id}][price]" placeholder="Precio €"
-                                        step="0.01" min="0" required>
+                <input type="number" class="form-control" name="rates[${id}][price]" placeholder="Precio €"
+                    step="0.01" min="0" required>
             </div>
-
             <div class="col">
-                    <input type="date" class="form-control" name="rates[${id}][start_date]" id="start-${id}" required>
+                <input type="date" class="form-control" name="rates[${id}][start_date]" id="start-${id}" required>
             </div>
-
             <div class="col">
-                    <input type="date" class="form-control" name="rates[${id}][end_date]" id="end-${id}" required>
+                <input type="date" class="form-control" name="rates[${id}][end_date]" id="end-${id}" required>
             </div>
         </div>`
     )
@@ -80,46 +46,29 @@ export const loadField = (id) => {
  * @description Remueve 1 campo de tarifas
  */
 export const removeField = () => {
-    const items = document.querySelectorAll('.rate-item');
+    const items = document?.querySelectorAll('.rate-item');
     if (items.length <= 1) return alert('Debes tener al menos 1 tarifa');
     items[items.length - 1].remove();
-
 }
 
-
-export const changeSubCategory = (categories, e, currentCategories) => {
+/**
+ * @description Cambia las subcategorias al cambiar la categoria padre
+ */
+export const changeSubCategory = (categories, e) => {
     const options = categories
         .filter(c => c.parent_id == e.target.value)
         .map(c => `<option value="${c.id}">${c.name}</option>`);
 
     subcategory.innerHTML = options.join('');
-    
-    if(subcategories){
-        const checkbox = categories
-        .filter(c => c.parent_id == e.target.value)
-        .map(c => `
-            <div class="form-check mb-2 ms-3 ">
-                    <input type="checkbox" name="subcategories[]" value=${c.id} class="form-check-input ${(currentCategories ?? []).some(pc => pc.id == c.id) ? 'checked' : ''} ">
-                    <label class="form-check-label">${c.name}</label>
-            </div>`);
-
-        subcategories.innerHTML = checkbox.join('');
-
-        
-    }
-
-    
-    
-
     return options.length;
 }
 
-
-
+/**
+ * @description Valida que el periodo sea de al menos 2 meses
+ */
 export const isValidDate = (startDate, endDate) => {
-        const diffMs = new Date(endDate) - new Date(startDate); 
-        const diffDays = diffMs / (1000 * 60 * 60 * 24);         
-        const diffMonths = diffDays / 30.44;
-
-        return diffMonths < 2;
+    const diffMs = new Date(endDate) - new Date(startDate);
+    const diffDays = diffMs / (1000 * 60 * 60 * 24);
+    const diffMonths = diffDays / 30.44;
+    return diffMonths < 2;
 }
