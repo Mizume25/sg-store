@@ -138,37 +138,19 @@ class ProductsController extends Controller
         $request->validate([
             'name' => 'required|max:255|min:4|unique:products,name,' . $id,
             'description' => 'required|max:500',
-            'category' => 'required|exists:categories,id',
-            'subcategory' => 'required|exists:categories,id',
             'rates' => 'required|array|min:1',
             'rates.*.price' => 'required|numeric|min:0',
             'rates.*.start_date' => 'required|date',
             'rates.*.end_date' => 'required|date|after:rates.*.start_date',
-            'subcategories' => 'required|array|min:1',
-            'subcategories.*' => 'exists:categories,id',
         ]);
 
         $product = Product::findOrFail($id);
-
-        $oldPath = $this->imageService->currentPath($product->id);
-
-        /** Calculamos new path */
-        $newPath = $this->imageService->makePath($request->category, $request->subcategory);
 
         /** Actualizamos producto */
         $product->update([
             'name' => $request->name,
             'description' => $request->description,
         ]);
-
-        /** Actualizamos categorias */
-        $product->categories()->sync(array_merge(
-            [$request->category, $request->subcategory],
-            $request->subcategories ?? []
-        ));
-
-        /** Reorganizamos rutas e imagenes */
-        $this->imageService->reorganize($product, $oldPath, $newPath);
 
         /** Eliminamos antiguas tarifas */
         $product->rates()->delete();
@@ -185,25 +167,23 @@ class ProductsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id) 
-    {   
+    public function destroy(string $id)
+    {
         $product = Product::findOrFail($id);
 
         $rates = Rate::where('product_id', $product->id)->get();
 
-        foreach ($rates as $rate)
-        {   
+        foreach ($rates as $rate) {
             $rate->delete();
         }
 
-        $product->categories()->detach(); 
+        $product->categories()->detach();
 
         $this->imageService->remove($product->id);
 
         $product->delete();
 
         return back()->with('success', 'Producto Eliminado Correctamente');
-
     }
 
 

@@ -27,7 +27,7 @@
                     class="d-inline">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="btn btn-outline-danger btn-sm">
+                    <button type="submit" class="btn btn-outline-danger btn-sm"  {{ $product->images->count() === 1 ? 'disabled' : '' }}>
                         <i class="bi bi-trash"></i> Eliminar
                     </button>
                 </form>

@@ -23,7 +23,7 @@ class ProductCategoryController extends Controller
     }
 
 
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $productID)
     {
         $request->validate([
             'category' => 'required|exists:categories,id',
@@ -32,11 +32,12 @@ class ProductCategoryController extends Controller
             'subcategories.*' => 'exists:categories,id',
         ]);
 
-        $product = Product::find($id);
+        $product = Product::findOrFail($productID);
 
-        /** Guardamos old path antes de tocar nada */
-        $image = ProductsImage::where('product_id', $product->id)->first();
-        $oldPath = implode('/', array_slice(explode('/', $image->path), 0, 2));
+        
+
+        $oldPath = $this->imageService->currentPath($productID);
+        
 
         /** Calculamos new path */
         $newPath = $this->imageService->makePath($request->category, $request->subcategory);
@@ -50,6 +51,6 @@ class ProductCategoryController extends Controller
         /** Reorganizamos rutas e imagenes */
         $this->imageService->reorganize($product, $oldPath, $newPath);
 
-        return redirect()->route('products.edit', $id)->with('success', 'Categorías actualizadas correctamente');
+        return redirect()->route('products.edit', $productID)->with('success', 'Categorías actualizadas correctamente');
     }
 }
