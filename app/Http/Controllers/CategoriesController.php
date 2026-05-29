@@ -69,7 +69,7 @@ class CategoriesController extends Controller
      * Show the form for editing the specified resource.
      */
     public function edit(string $id)
-    {   
+    {
         /** Obtenemos todas las categorias */
         $categories = Category::all();
 
@@ -114,18 +114,24 @@ class CategoriesController extends Controller
      */
     public function destroy(string $id)
     {
-         $category = Category::findOrFail($id);
-        
-        //Borramos hijas
-        if($category->paren_id == null ){
-            Category::where('parent_id', $category->id)->delete();
+        $category = Category::findOrFail($id);
 
+        if ($category->products()->exists()) {
+            return back()->with('error', 'No se puede eliminar, tiene productos asociados');
         }
 
-        //Borramos categorias
+ 
+        if ($category->parent_id === null) Category::where('parent_id', $category->id)->delete();
+        
         $category->delete();
 
-         //retornamos
-        return back()->with('success', 'Categoría borradas correctamente');
+        return back()->with('success', 'Categoría borrada correctamente');
+    }
+
+
+    public function apiCategories(Request $request)
+    {
+        $categories = Category::all();
+        return response()->json($categories);
     }
 }

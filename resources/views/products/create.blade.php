@@ -1,13 +1,6 @@
 @extends('layouts.app')
 @section('content')
     <h1 class="mb-3">Crear Producto</h1>
-    @if ($errors->any())
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    @endif
 
     {{-- Mensaje de Creacion exitosa --}}
     @if (session('success'))
@@ -19,7 +12,7 @@
 
 
 
-    <div class="d-flex justify-content-center">
+    <div class="d-flex justify-content-center" >
         <div class="card w-50">
             <div class="card-body">
                 <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
