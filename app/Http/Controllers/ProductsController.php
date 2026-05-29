@@ -54,6 +54,10 @@ class ProductsController extends Controller
         ]);
 
 
+        /** Creamos path */
+        $path = $this->imageService->makePath($request->category, $request->subcategory);
+
+
 
         /** Creamos el codigo */
         $code = strtoupper(substr($request->name, 0, 3)) . '-' . strtoupper(Str::random(4));
@@ -70,9 +74,8 @@ class ProductsController extends Controller
 
 
 
-        $this->imageService->upload($request->file('image1'), $product);
-
-        $this->imageService->upload($request->file('image2'), $product);
+        $this->imageService->upload($request->file('image1'), $path, $product->id);
+        $this->imageService->upload($request->file('image2'), $path, $product->id);
 
         //** Creamos tarifas */
         foreach ($request->rates as $rate) {
@@ -120,13 +123,18 @@ class ProductsController extends Controller
         return view('products.edit', compact('product', 'categories'));
     }
 
+
+    /**
+     * Formlario para gestionar categorias relacionadas
+     */
+
+
+
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
     {
-        
-
         $request->validate([
             'name' => 'required|max:255|min:4|unique:products,name,' . $id,
             'description' => 'required|max:500',
@@ -140,42 +148,43 @@ class ProductsController extends Controller
             'subcategories.*' => 'exists:categories,id',
         ]);
 
-
         $product = Product::find($id);
-        $oldPath = $this->imageService->makePath($product);
 
+        /** Guardamos old path antes de tocar nada */
+        $image = ProductsImage::where('product_id', $product->id)->first();
+        $oldPath = implode('/', array_slice(explode('/', $image->path), 0, 2));
 
+        /** Calculamos new path */
+        $newPath = $this->imageService->makePath($request->category, $request->subcategory);
+
+        /** Actualizamos producto */
         $product->update([
             'name' => $request->name,
             'description' => $request->description,
         ]);
 
-
         /** Actualizamos categorias */
         $product->categories()->sync(array_merge(
-            [$request->category],      // padre
-            $request->subcategories    // checkboxes (incluye el seleccionado + extras)
+            [$request->category, $request->subcategory],
+            $request->subcategories ?? []
         ));
 
-        /** regorganizamos rutas y imagenes */
-        $this->imageService->reorganize($product, $oldPath);
-
-
+        /** Reorganizamos rutas e imagenes */
+        $this->imageService->reorganize($product, $oldPath, $newPath);
 
         /** Eliminamos antiguas tarifas */
         Rate::where('product_id', $product->id)->delete();
 
-        //** Creamos tarifas nuevas (sobreescribimos)*/
+        /** Creamos tarifas nuevas */
         foreach ($request->rates as $rate) {
             Rate::create([
-                'price' =>  $rate['price'],
+                'price' => $rate['price'],
                 'start_date' => $rate['start_date'],
                 'end_date' => $rate['end_date'],
-                'product_id'  => $product->id
+                'product_id' => $product->id
             ]);
         }
 
-        /** Volvemos */
         return back()->with('success', 'Producto editado correctamente');
     }
 
@@ -186,4 +195,12 @@ class ProductsController extends Controller
      * Remove the specified resource from storage.
      */
     public function destroy(string $id) {}
+
+
+    public function apiProduct(Request $request, int $id)
+    {
+        $product = Product::with('categories')->find($id);
+
+        return response()->json($product);
+    }
 }

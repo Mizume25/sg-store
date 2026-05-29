@@ -8,7 +8,7 @@ use App\Services\ImageService;
 use Illuminate\Http\Request;
 
 class ProductsImagesController extends Controller
-{   
+{
 
     public function __construct(private ImageService $imageService) {}
 
@@ -21,25 +21,25 @@ class ProductsImagesController extends Controller
             'image' => 'required|image|mimes:jpg,png,webp|max:2048',
         ]);
 
-        $product = Product::find($id);
 
-        //Subimos archivo
-        $this->imageService->upload($request->file('image') , $product);
+        $image = ProductsImage::where('product_id', $id)->first();
+        $path = implode('/', array_slice(explode('/', $image->path), 0, 2));
+
+        $this->imageService->upload($request->file('image'), $path, $id);
 
         return back()->with('success', 'Imagen creada correctamente');
-
     }
 
-    
+
 
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(string $id)
-    {   
+    {
         /** Obtenemos producto con imagenes */
         $product = Product::with('images')->find($id);
-        
+
         return view('products.images.edit', compact('product'));
     }
 
@@ -47,17 +47,17 @@ class ProductsImagesController extends Controller
      * Update the specified resource in storage.
      */
     public function override(Request $request, string $productId, string $id)
-    {   
-
+    {
         $request->validate([
-             'image' => 'required|image|mimes:jpg,png,webp|max:2048',
+            'image' => 'required|image|mimes:jpg,png,webp|max:2048',
         ]);
 
-        $product = Product::find($productId);
+        $image = ProductsImage::where('product_id', $productId)->first();
+        $path = implode('/', array_slice(explode('/', $image->path), 0, 2));
 
-        $this->imageService->replace($id , $request->file('image'), $product);
+        $this->imageService->replace($id, $request->file('image'), $path, $productId);
 
-        return back()->with('success', 'Imagen remplazada correctamente');
+        return back()->with('success', 'Imagen reemplazada correctamente');
     }
 
     /**
