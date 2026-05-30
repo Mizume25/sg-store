@@ -4,13 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Product;
-use App\Models\ProductsImage;
 use App\Models\Rate;
 use App\Services\ImageService;
 use Illuminate\Http\Request;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Str;
-
+use Rap2hpoutre\FastExcel\FastExcel;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ProductsController extends Controller
 {
@@ -22,6 +21,32 @@ class ProductsController extends Controller
     public function index()
     {
         //
+    }
+
+
+
+    public function export()
+    {
+        $products = Product::with('categories', 'rates')->get()->map(function ($product) {
+            return [
+                'Código'      => $product->code,
+                'Nombre'      => $product->name,
+                'Descripción' => $product->description,
+                'Categorías'  => $product->categories->pluck('name')->join(', '),
+                'Tarifas'     => $product->rates->map(fn($r) => "{$r->start_date} - {$r->end_date}: {$r->price}€")->join(' | '),
+            ];
+        });
+
+        return (new FastExcel($products))->download('productos.xlsx');
+    }
+
+    public function pdf(string $id)
+    {
+        $product = Product::with('categories', 'rates', 'images')->findOrFail($id);
+
+        $pdf = Pdf::loadView('products.pdf', compact('product'));
+
+        return $pdf->download("{$product->name}.pdf");
     }
 
     /**
