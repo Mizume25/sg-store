@@ -4,7 +4,7 @@
         ['label' => 'Catalogo', 'route' => 'dashboard', 'icon' => 'bi bi-speedometer2'],
         ['label' => 'Gestionar Categorias', 'route' => 'categories.create', 'icon' => 'bi bi-tags'],
         ['label' => 'Añadir Producto', 'route' => 'products.create', 'icon' => 'bi bi-box-seam'],
-        ['label' => 'Calendario', 'route' => 'products.create', 'icon' => 'bi bi-calendar']
+        ['label' => 'Calendario', 'route' => 'orders.index', 'icon' => 'bi bi-calendar']
     ];
 @endphp
 

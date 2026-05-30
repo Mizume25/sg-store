@@ -34,6 +34,8 @@ Route::middleware('auth')->group(function () {
     
     Route::get('products/json/{id}', [ProductsController::class, 'apiProduct'])->name('products.json');
 
+    Route::get('/orders/json', [OrderController::class, 'apiOrders'])->name('orders.json');
+
     /** Exportacion Excel */
     Route::get('/products/export', [ProductsController::class, 'export'])->name('products.export');
 
