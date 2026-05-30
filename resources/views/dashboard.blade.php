@@ -4,6 +4,11 @@
     <div class="row g-3">
         {{-- Grid para los card de productos --}}
         <div class="col-8">
+            <div class="d-flex justify-content-end mb-2">
+                <a href="{{ route('products.export') }}" class="btn btn-success btn-sm">
+                    <i class="bi bi-file-earmark-excel"></i> Exportar Excel
+                </a>
+            </div>
             <div class="row g-3" id="product_grid">
                 {{-- Iteramos cards --}}
                 @foreach ($products as $product)
@@ -32,21 +37,26 @@
                         <p id="description"> </p>
                         <hr>
                         <p class="fw-bold mb-1" id="categories">Categorías</p>
-                        
+
                         <p class="fw-bold mb-1" id="prices">Precios</p>
-                        
-                        <div class="d-flex gap-2 mt-3">
+
+                        <div class="d-flex gap-2 mt-3 mb-4">
                             <a href='#' class="btn btn-warning btn-sm w-50" id="edit-product">
                                 <i class="bi bi-pencil"></i> Editar
                             </a>
                             <form action="#" method="POST" class="w-50" id="delte-product">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm w-100" >
+                                <button type="submit" class="btn btn-danger btn-sm w-100">
                                     <i class="bi bi-trash"></i> Eliminar
                                 </button>
                             </form>
+
+                            
                         </div>
+                        <a href="#" class="btn btn-danger btn-sm " id="pdf-product">
+                                <i class="bi bi-file-earmark-pdf"></i> PDF 
+                            </a>
                     </div>
                 </div>
             </div>

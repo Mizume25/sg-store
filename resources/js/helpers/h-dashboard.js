@@ -9,7 +9,7 @@ export const images = card?.querySelector('#imagenes');
 export const rates = card?.querySelector('#prices');
 export const editBTN = card?.querySelector('#edit-product');
 export const deleteBTN = card?.querySelector('#delte-product');
-
+export const pdfBTN = card?.querySelector('#pdf-product');
 
 
 /**
@@ -82,6 +82,7 @@ export const showDetail = (product) => {
 
     editBTN.href = `/products/${product.id}/edit`;
     deleteBTN.action = `/products/${product.id}`;
+    pdfBTN.href = `/products/${product.id}/pdf`;
     
     startSlideshow();
 

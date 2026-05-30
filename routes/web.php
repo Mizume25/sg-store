@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\ProductsImagesController;
@@ -33,11 +34,23 @@ Route::middleware('auth')->group(function () {
     
     Route::get('products/json/{id}', [ProductsController::class, 'apiProduct'])->name('products.json');
 
+    Route::get('/orders/json', [OrderController::class, 'apiOrders'])->name('orders.json');
+
+    /** Exportacion Excel */
+    Route::get('/products/export', [ProductsController::class, 'export'])->name('products.export');
+
+    /** Exportacion PDF */
+    Route::get('/products/{id}/pdf', [ProductsController::class, 'pdf'])->name('products.pdf');
+
     /** Uso de resources para gestionar el CRUD completo de categories*/
     Route::resource('categories', CategoriesController::class);
 
     /** Uso de resources para gestionar el CRUD completo de productos */
     Route::resource('products', ProductsController::class);
+
+    Route::resource('orders', OrderController::class);
+    
+
     
     /** Gestionar categorias de un producto */
     Route::get('products/{id}/categories', [ProductCategoryController::class, 'edit'])->name('products.categories.edit');
@@ -52,6 +65,7 @@ Route::middleware('auth')->group(function () {
 
     Route::post('products/{productId}/images/{id}', [ProductsImagesController::class, 'override'])->name('products.images.override');
 
+    
 
 
 });
