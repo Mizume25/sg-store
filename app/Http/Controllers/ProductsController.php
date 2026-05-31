@@ -24,7 +24,10 @@ class ProductsController extends Controller
     }
 
 
-
+    /**
+     * 
+     * Funcion para poder exportar productos como un xlsx
+     */
     public function export()
     {
         $products = Product::with('categories', 'rates')->get()->map(function ($product) {
