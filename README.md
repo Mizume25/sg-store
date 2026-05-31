@@ -8,58 +8,16 @@ Backoffice de gestión de productos desarrollado como prueba técnica para Studi
 
 ---
 
-## Requisitos previos
+## Requisitos 
 
-- PHP >= 8.0
-- Composer
-- Node.js + npm
+- PHP 8.0
 - MySQL
-
----
-
-## Instalación
-
-```bash
-# 1. Clonar el repositorio
-git clone https://github.com/tu-usuario/sg-store.git
-cd sg-store
-
-# 2. Instalar dependencias PHP
-composer install
-
-# 3. Instalar dependencias JS
-npm install && npm run build
-
-# 4. Copiar el archivo de entorno
-cp .env.example .env
-
-# 5. Generar clave de aplicación
-php artisan key:generate
-```
-
----
-
-## Configuración de la base de datos
-
-Edita el archivo `.env` con tus credenciales MySQL:
-
-```env
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=sg_store
-DB_USERNAME=root
-DB_PASSWORD=
-```
+- Laravel 12 
+- Bootstrap 5 + plantillas blade
 
 ---
 
 ## Migraciones y datos de prueba
-
-```bash
-# Crear tablas y poblar con datos de ejemplo
-php artisan migrate --seed
-```
 
 Esto ejecuta los seeders en orden:
 
@@ -72,27 +30,13 @@ Esto ejecuta los seeders en orden:
 
 ---
 
-## Arrancar el servidor
-
-```bash
-php artisan serve
-```
-
-La aplicación estará disponible en `http://127.0.0.1:8000`.
-
----
-
 ## Acceso al backoffice
 
-| Campo | Valor |
+| Login  | Valor |
 |---|---|
-| **URL** | `http://127.0.0.1:8000/login` |
 | **Email** | `test@example.com` |
-| **Contraseña** | `password` |
+| **Contraseña** | `password123` |
 
-> Si quieres crear un usuario propio: `php artisan tinker` → `User::factory()->create(['email' => 'tu@email.com', 'password' => bcrypt('tupassword')])`
-
----
 
 ## Funcionalidades
 
@@ -142,7 +86,7 @@ app/
 ├── Services/
 │   └── ImageService.php             # Lógica de rutas y almacenamiento de imágenes
 └── Models/
-    ├── Category.php
+    ├── Category.php                #Modelos
     ├── Product.php
     ├── Rate.php
     ├── Order.php
@@ -160,13 +104,3 @@ app/
 | `barryvdh/laravel-dompdf` | Exportación PDF |
 | `@fullcalendar/*` | Calendario de pedidos |
 
----
-
-## Control de versiones
-
-El repositorio usa tres ramas principales:
-
-- `main` — código estable y funcional
-- `dev` — corrección de errores y bugs
-- `feature/controller` — desarrollo de CRUDs
-- `feature/frontend` — plantillas Blade y formularios
