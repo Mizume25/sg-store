@@ -210,12 +210,4 @@ class ProductsController extends Controller
 
         return back()->with('success', 'Producto Eliminado Correctamente');
     }
-
-
-    public function apiProduct(Request $request, int $id)
-    {
-        $product = Product::with('categories')->find($id);
-
-        return response()->json($product);
-    }
 }
