@@ -4,7 +4,7 @@ export const subcategories = document.getElementById('subcategories');
 
 export const loadProduct = async (id) => {
     try {
-        const response = await fetch(`/products/json/${id}`);
+        const response = await fetch(`/api/products/${id}`);
         return await response.json();
     } catch (e) {
         console.log(e);

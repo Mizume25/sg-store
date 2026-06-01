@@ -25,7 +25,7 @@ class ApiController extends Controller
 
     public function categories()
     {
-        return response()->json(Category::with('childrens')->get());
+        return response()->json(Category::all());
     }
 
     public function orders()

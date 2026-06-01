@@ -15,7 +15,7 @@ export const tarifasContent = document?.getElementById('rates-container');
  */
 export const loadCategories = async () => {
     try {
-        const response = await fetch('/categories/json');
+        const response = await fetch('/api/categories');
         return await response.json();
     } catch (e) {
         console.log(e);

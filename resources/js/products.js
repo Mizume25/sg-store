@@ -2,6 +2,8 @@ import * as pr from './helpers/h-products';
 
 const categories = await pr.loadCategories();
 
+
+
 /** Filtramos subcategorias relativas al padre seleccionado */
 if (pr.parent) {
     

@@ -60,7 +60,7 @@
                                 </div>
                                 <div class="col">
                                     <input type="date" name="rates[{{ $index }}][start_date]"
-                                        value="{{ $rate->start_date }}" >
+                                        value="{{ $rate->start_date }}">
                                 </div>
                                 <div class="col">
                                     <input type="date" name="rates[{{ $index }}][end_date]"
@@ -94,11 +94,8 @@
             </div>
         </div>
     </div>
-
-
-
 @endsection
 
-@section('js')
+@push('scripts')
     @vite('resources/js/products.js');
-@endsection
+@endpush
