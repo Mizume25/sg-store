@@ -3,6 +3,7 @@
 use App\Http\Controllers\ApiController;
 use Illuminate\Support\Facades\Route;
 
+/** Endpoints publicos */
 Route::get('/products', [ApiController::class, 'products']);
 
 Route::get('/products/{id}', [ApiController::class, 'product']);
