@@ -29,7 +29,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    /** Apis */
+    /** Apis internas */
     Route::get('categories/json', [CategoriesController::class, 'apiCategories'])->name('categories.json');
     
     Route::get('products/json/{id}', [ProductsController::class, 'apiProduct'])->name('products.json');
