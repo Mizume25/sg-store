@@ -56,7 +56,9 @@ Route::middleware('auth')->group(function () {
     /** Gestion de Crud subalterno para las imagenes de productos */
     Route::get('products/{id}/images', [ProductsImagesController::class, 'edit'])->name('products.images.edit');
     Route::post('products/{id}/images', [ProductsImagesController::class, 'store'])->name('products.images.store');
+
     Route::delete('images/{imageId}', [ProductsImagesController::class, 'destroy'])->name('products.images.destroy');
+    
     Route::post('products/{productId}/images/{id}', [ProductsImagesController::class, 'override'])->name('products.images.override');
 
     

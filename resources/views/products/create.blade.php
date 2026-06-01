@@ -102,7 +102,6 @@
     </div>
 @endsection
 
-
-@section('js')
-    @vite('resources/js/products.js');
-@endsection
+@push('scripts')
+         @vite('resources/js/products.js');
+@endpush

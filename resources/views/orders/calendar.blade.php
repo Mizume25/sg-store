@@ -43,6 +43,6 @@
     </div>
 @endsection
 
-@section('js')
-    @vite('resources/js/calendar.js')
-@endsection
+ @push('scripts')
+        @vite('resources/js/calendar.js');
+ @endpush

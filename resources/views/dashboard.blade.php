@@ -65,6 +65,7 @@
     </div>
 @endsection
 
-@section('js')
-    @vite('resources/js/dashboard.js');
-@endsection
+ @push('scripts')
+      @vite('resources/js/dashboard.js');
+ @endpush
+

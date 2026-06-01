@@ -48,7 +48,7 @@
          </div>
      </div>
  @endsection
-
- @section('js')
+ 
+ @push('scripts')
      @vite('resources/js/categories.js');
- @endsection
+ @endpush
