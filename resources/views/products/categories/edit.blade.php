@@ -2,14 +2,6 @@
 
  @section('content')
      <h1 class="mb-3">Editar Categorias de Productos</h1>
-     {{-- Mensaje de Creacion exitosa --}}
-     @if (session('success'))
-         <div class="alert alert-success alert-dismissible fade show" role="alert">
-             {{ session('success') }}
-             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-         </div>
-     @endif
-
      <div class="card w-50 mx-auto">
          <div class="card-body" data-id="{{ $product->id }}">
             <a href="{{ route('products.edit', $product->id) }}" class="btn btn-outline-secondary btn-sm mb-3">
@@ -56,7 +48,7 @@
          </div>
      </div>
  @endsection
-
- @section('js')
+ 
+ @push('scripts')
      @vite('resources/js/categories.js');
- @endsection
+ @endpush

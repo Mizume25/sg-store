@@ -1,13 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
- {{-- Mensaje de Creacion exitosa --}}
-    @if (session('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-    @endif
  <h1 class="mb-3">Editar Imagenes de {{ $product->name }}</h1>
     <div class="mb-3">
         @foreach ($product->images as $image)

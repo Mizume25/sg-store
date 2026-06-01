@@ -8,17 +8,6 @@
             @endforeach
         </ul>
     @endif
-
-    {{-- Mensaje de Creacion exitosa --}}
-    @if (session('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-    @endif
-
-
-
     <div class="d-flex justify-content-center">
         <div class="card w-50">
             <div class="card-body">
@@ -71,7 +60,7 @@
                                 </div>
                                 <div class="col">
                                     <input type="date" name="rates[{{ $index }}][start_date]"
-                                        value="{{ $rate->start_date }}" >
+                                        value="{{ $rate->start_date }}">
                                 </div>
                                 <div class="col">
                                     <input type="date" name="rates[{{ $index }}][end_date]"
@@ -105,11 +94,8 @@
             </div>
         </div>
     </div>
-
-
-
 @endsection
 
-@section('js')
+@push('scripts')
     @vite('resources/js/products.js');
-@endsection
+@endpush

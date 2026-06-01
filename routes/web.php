@@ -29,11 +29,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    /** Apis */
-    Route::get('categories/json', [CategoriesController::class, 'apiCategories'])->name('categories.json');
-    
-    Route::get('products/json/{id}', [ProductsController::class, 'apiProduct'])->name('products.json');
-
+    /** Api de orders */
     Route::get('/orders/json', [OrderController::class, 'apiOrders'])->name('orders.json');
 
     /** Exportacion Excel */
@@ -42,12 +38,13 @@ Route::middleware('auth')->group(function () {
     /** Exportacion PDF */
     Route::get('/products/{id}/pdf', [ProductsController::class, 'pdf'])->name('products.pdf');
 
-    /** Uso de resources para gestionar el CRUD completo de categories*/
+    /** CRUD de categorias */
     Route::resource('categories', CategoriesController::class);
 
-    /** Uso de resources para gestionar el CRUD completo de productos */
+     /** CRUD de productos */
     Route::resource('products', ProductsController::class);
 
+     /** Ruta de ordenes */
     Route::resource('orders', OrderController::class);
     
 
@@ -58,11 +55,10 @@ Route::middleware('auth')->group(function () {
 
     /** Gestion de Crud subalterno para las imagenes de productos */
     Route::get('products/{id}/images', [ProductsImagesController::class, 'edit'])->name('products.images.edit');
-
     Route::post('products/{id}/images', [ProductsImagesController::class, 'store'])->name('products.images.store');
 
     Route::delete('images/{imageId}', [ProductsImagesController::class, 'destroy'])->name('products.images.destroy');
-
+    
     Route::post('products/{productId}/images/{id}', [ProductsImagesController::class, 'override'])->name('products.images.override');
 
     
