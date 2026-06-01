@@ -17,14 +17,14 @@ class CategorySeeder extends Seeder
     private function descriptions(string $category): string
     {
         $descriptions = [
-            'manzanas' => 'Manzanas frescas de temporada, cultivadas en huertos seleccionados.',
-            'peras' => 'Peras jugosas y dulces, perfectas para consumo directo o postres.',
-            'zanahorias' => 'Zanahorias cultivadas de forma natural, ricas en vitamina A.',
-            'lechugas' => 'Lechugas frescas de hoja crujiente, ideales para ensaladas.',
+            'manzana' => 'Manzanas frescas de temporada, cultivadas en huertos seleccionados.',
+            'pera' => 'Peras jugosas y dulces, perfectas para consumo directo o postres.',
+            'zanahoria' => 'Zanahorias cultivadas de forma natural, ricas en vitamina A.',
+            'lechuga' => 'Lechugas frescas de hoja crujiente, ideales para ensaladas.',
             'pollo' => 'Pollo de granja criado en libertad, sin antibióticos.',
             'ternera' => 'Ternera de primera calidad, tierna y con sabor intenso.',
             'leche' => 'Leche fresca de vaca, procesada con los más altos estándares de calidad.',
-            'quesos' => 'Quesos artesanales elaborados con leche de origen controlado.',
+            'queso' => 'Quesos artesanales elaborados con leche de origen controlado.',
             'frutas' => 'Selección de las mejores frutas de temporada.',
             'verduras' => 'Verduras frescas cultivadas localmente.',
             'carnes' => 'Carnes de primera calidad seleccionadas por nuestros expertos.',

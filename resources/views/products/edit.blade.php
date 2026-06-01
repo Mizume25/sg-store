@@ -8,17 +8,6 @@
             @endforeach
         </ul>
     @endif
-
-    {{-- Mensaje de Creacion exitosa --}}
-    @if (session('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-    @endif
-
-
-
     <div class="d-flex justify-content-center">
         <div class="card w-50">
             <div class="card-body">

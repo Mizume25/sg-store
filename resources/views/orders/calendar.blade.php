@@ -13,13 +13,6 @@
                 <div class="card-body">
                     <h5 class="card-title">Nuevo Pedido</h5>
 
-                    @if (session('success'))
-                        <div class="alert alert-success alert-dismissible fade show">
-                            {{ session('success') }}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                        </div>
-                    @endif
-
                     <form action="{{ route('orders.store') }}" method="POST">
                         @csrf
 
