@@ -21,8 +21,9 @@ class ProductsImagesController extends Controller
             'image' => 'required|image|mimes:jpg,png,webp|max:2048',
         ]);
 
+        $product = Product::findOrFail($productId);
 
-        $path = $this->imageService->currentPath($productId);
+        $path = $product->code . '/';
 
         $this->imageService->upload($request->file('image'), $path, $productId);
 
@@ -51,7 +52,9 @@ class ProductsImagesController extends Controller
             'image' => 'required|image|mimes:jpg,png,webp|max:2048',
         ]);
 
-        $path = $this->imageService->currentPath($productId);
+        $product = Product::findOrFail($productId);
+
+        $path = $product->code . '/';
 
         $this->imageService->replace($id, $request->file('image'), $path, $productId);
 

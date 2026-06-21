@@ -36,11 +36,10 @@ class ProductCategoryController extends Controller
 
         
 
-        $oldPath = $this->imageService->currentPath($productID);
         
 
         /** Calculamos new path */
-        $newPath = $this->imageService->makePath($request->category, $request->subcategory);
+        $newPath = $product->code . '/' . 
 
         /** Actualizamos categorias */
         $product->categories()->sync(array_merge(
@@ -48,8 +47,7 @@ class ProductCategoryController extends Controller
             $request->subcategories ?? []
         ));
 
-        /** Reorganizamos rutas e imagenes */
-        $this->imageService->reorganize($product, $oldPath, $newPath);
+       
 
         return redirect()->route('products.edit', $productID)->with('success', 'Categorías actualizadas correctamente');
     }

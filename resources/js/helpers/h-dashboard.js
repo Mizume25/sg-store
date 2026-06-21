@@ -41,9 +41,9 @@ export const renderCategories = (categories) => {
  * @param {Array} images - Array of image objects
  * @returns {string} HTML string
  */
-export const renderImages = (images) => {
+export const renderImages = (images , code) => {
     return images.map((i, index) =>
-        `<img src="/${i.path}" 
+        `<img src="/${code}/${i.path}" 
               class="product-img ${index === 0 ? 'active' : ''}">`
     ).join('');
 }
@@ -73,7 +73,7 @@ export const showDetail = (product) => {
     slideIndex = 0;
     if (!card) return;
     /** Renderizamos contenido  */
-    images.innerHTML = renderImages(product.images);
+    images.innerHTML = renderImages(product.images , product.code);
     name.textContent = product.name;
     code.textContent = product.code;
     description.textContent = product.description;

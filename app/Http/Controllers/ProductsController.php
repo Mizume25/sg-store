@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Rap2hpoutre\FastExcel\FastExcel;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\File;
 
 class ProductsController extends Controller
 {
@@ -78,14 +79,11 @@ class ProductsController extends Controller
             'image2' => 'nullable|image|mimes:jpg,png,webp|max:2048',
         ]);
 
-
-        /** Creamos path */
-        $path = $this->imageService->makePath($request->category, $request->subcategory);
-
-
-
         /** Creamos el codigo */
         $code = strtoupper(substr($request->name, 0, 3)) . '-' . strtoupper(Str::random(4));
+
+        /** Creamos path */
+        $path = $code . '/';
 
         /** Creamos el producto */
         $product = Product::create([
@@ -114,21 +112,6 @@ class ProductsController extends Controller
 
         /** Volvemos */
         return back()->with('success', 'Producto creado correctamente');
-    }
-
-    /**
-     * 
-     * 
-     */
-
-
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
     }
 
     /**
@@ -171,9 +154,28 @@ class ProductsController extends Controller
 
         $product = Product::findOrFail($id);
 
+        $code = $product->code;
+
+        if ($product->name != $request->name) {
+
+
+            $oldCode = $product->code;
+            $code = strtoupper(substr($request->name, 0, 3)) . '-' . strtoupper(Str::random(4));
+
+
+            $oldPath = public_path($oldCode);
+            $newPath = public_path($code);
+
+            if (File::isDirectory($oldPath)) {
+                File::move($oldPath, $newPath);
+                 
+            }
+        }
+
         /** Actualizamos producto */
         $product->update([
             'name' => $request->name,
+            'code' => $code,
             'description' => $request->description,
         ]);
 
@@ -210,7 +212,4 @@ class ProductsController extends Controller
 
         return back()->with('success', 'Producto Eliminado Correctamente');
     }
-
-
-   
 }
