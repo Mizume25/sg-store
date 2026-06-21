@@ -2,11 +2,11 @@
 
 namespace App\Services;
 
-use App\Models\Category;
+
 use App\Models\Product;
 use App\Models\ProductsImage;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\DB;
+
 
 /**
  * 
@@ -35,28 +35,26 @@ class ImageService
             mkdir($dest, 0755, true);
         }
 
-        /** Creamos un id unico */
-        $name = uniqid() . '.' . $img->getClientOriginalExtension();
-
+        $name = $img->getClientOriginalName();
+    
         /** Ponemos la imagen en el directorio */
         $img->move($dest, $name);
 
         /** Creamos los metadatos */
-        $this->store($path, $name, $productId);
+        $this->store($name, $productId);
     }
 
     /**
      * 
      * Crear datos en BD
-     * @param string $path
      * @param string $name
      * @param int $productID
      */
-    private function store(string $path, string $name, int $productID)
+    private function store(string $name, int $productID)
     {
         /** Crea objeto en BD */
         ProductsImage::create([
-            'path' => $path . '/' . $name,
+            'path' => $name,
             'product_id' => $productID
         ]);
     }
@@ -71,8 +69,10 @@ class ImageService
         /** Buscamos la imagen */
         $img = ProductsImage::findOrFail($id);
 
+        $product = Product::findOrFail($img->product_id);
+
         /** Si existe el directorio lo borramos */
-        if (file_exists(public_path($img->path))) unlink(public_path($img->path));
+        if (file_exists(public_path($product->code . '/' . $img->path))) unlink(public_path($product->code . '/' . $img->path));
 
         /** Borramos la imagen */
         $img->delete();
@@ -94,40 +94,7 @@ class ImageService
         }
     }
 
-    /** Funcion para reorganizar carpetas en caso de upadtes a subcategories 
-     * @param Product $product
-     * @param string $oldPath
-     * @param string $newPath
-     */
-    public function reorganize(Product $product, string $oldPath, string $newPath): void
-    {
-        if ($oldPath === $newPath) return;
-
-        $newDest = public_path($newPath);
-
-        if (!file_exists($newDest)) {
-            mkdir($newDest, 0755, true);
-        }
-
-        /** Solo las imágenes de este producto */
-        $images = ProductsImage::where('product_id', $product->id)->get();
-
-        foreach ($images as $image) {
-            $filename    = basename($image->path);
-            $source      = public_path("{$oldPath}/{$filename}");
-            $destination = "{$newDest}/{$filename}";
-
-            if (file_exists($source)) {
-                rename($source, $destination);
-            }
-        }
-
-        /** Update de los registros de base de datos */
-        ProductsImage::where('product_id', $product->id)
-            ->update([
-                'path' => DB::raw("REPLACE(path, '$oldPath', '$newPath')"),
-            ]);
-    }
+ 
 
     /**
      * 
@@ -146,34 +113,7 @@ class ImageService
         $this->upload($new, $path, $productID);
     }
 
+    
 
-    /** Funciones Helpers */
-
-    /**
-     * Construir ruta
-     * @param $cat category
-     * @param $sub  subcategory
-     */
-    public function makePath(int $cat, int $sub): string
-    {
-        /** Unimos categoria y subcategoria principal  */
-        $parent = Category::findOrFail($cat);
-        $children = Category::findOrFail($sub);
-
-        return $parent->name . '/' . $children->name;
-    }
-
-    /**
-     * Saber ruta actual
-     * @params $productID
-     */
-    public function currentPath(int $productID): ?string
-    {
-        $image = ProductsImage::where('product_id', $productID)->first();
-
-        if (!$image) return null;
-
-        /** deconstruirmos ruta de la ruta de BD */
-        return implode('/', array_slice(explode('/', $image->path), 0, 2));
-    }
+  
 }

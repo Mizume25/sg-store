@@ -5,7 +5,7 @@
     <div class="mb-3">
         @foreach ($product->images as $image)
             <div class="d-flex align-items-center gap-3 mb-2 p-2 border rounded">
-                <img src="/{{ $image->path }}" class="img-thumbnail"
+                <img src="/{{ $product->code  }}/{{ $image->path }}" class="img-thumbnail"
                     style="width: 80px; height: 80px; object-fit: cover; flex-shrink: 0;">
                 <span class="flex-grow-1 text-muted small text-truncate">{{ $image->path }}</span>
                 <form action={{ route('products.images.override', [$product->id, $image->id]) }} method="POST"
