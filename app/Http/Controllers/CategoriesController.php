@@ -128,10 +128,4 @@ class CategoriesController extends Controller
         return back()->with('success', 'Categoría borrada correctamente');
     }
 
-
-    public function apiCategories(Request $request)
-    {
-        $categories = Category::all();
-        return response()->json($categories);
-    }
 }
