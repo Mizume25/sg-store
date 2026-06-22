@@ -122,9 +122,6 @@ class ProductsController extends Controller
         /** Encontramos el producto con todas sus relaciones */
         $product = Product::with('categories', 'rates', 'images')->find($id);
 
-        if (request()->wantsJson()) {
-            return response()->json($product);
-        }
 
         $categories = Category::all();
 

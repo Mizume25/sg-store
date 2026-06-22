@@ -29,7 +29,7 @@
             </header>
         @endisset
 
-        <div class="d-flex" style="background-color: antiquewhite">
+        <div class="d-flex min-h-screen" style="background-color: antiquewhite">
             <x-sidebar />
             <main class="flex-grow-1 p-4">
                 <button class="btn btn-outline-primary  mb-3" type="button" data-bs-toggle="offcanvas"
