@@ -2,7 +2,7 @@
 @section('content')
     <h1 class="mb-3">Crear Producto</h1>
     <div class="d-flex justify-content-center" >
-        <div class="card w-50">
+        <div class="card w-100 w-lg-50">
             <div class="card-body">
                 <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf

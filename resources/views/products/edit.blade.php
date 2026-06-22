@@ -9,7 +9,7 @@
         </ul>
     @endif
     <div class="d-flex justify-content-center">
-        <div class="card w-50">
+        <div class="card w-100 w-lg-50">
             <div class="card-body">
                 <form action={{ route('products.update', $product->id) }} method="POST" enctype="multipart/form-data">
                     @csrf

@@ -4,7 +4,7 @@
    
 
     <div class="d-flex justify-content-center">
-        <div class="card w-50">
+        <div class="card w-100 w-lg-50">
             <div class="card-body">
                 <form action="{{ route('categories.store') }}" method="POST">
                     @csrf
@@ -39,7 +39,7 @@
                     </div>
 
                     {{-- Botones --}}
-                    <div class="d-flex gap-2">
+                    <div class="d-flex flex-column flex-lg-row gap-2">
                         <button type="submit" class="btn btn-dark btn-lg">Crear</button>
                         <button type="button" class="btn btn-info" data-bs-toggle="modal"
                             data-bs-target="#modalCategorias">

@@ -1,7 +1,7 @@
  @extends('layouts.app')
  @section('content')
      <div class="d-flex justify-content-center">
-         <div class="card w-50">
+         <div class="card w-100 w-lg-50">
              <div class="card-body">
                  <form action="{{ route('categories.update', $category->id) }}" method="POST"  id="editForm" >
                      @csrf
@@ -65,7 +65,7 @@
 
 
                      {{-- Botones --}}
-                     <div class="d-flex gap-2">
+                     <div class="d-flex flex-column flex-lg-row gap-2">
                          <button type="button" class="btn btn-dark btn-lg" data-bs-toggle="modal"
                              data-bs-target="#confirmModal">
                              Actualizar

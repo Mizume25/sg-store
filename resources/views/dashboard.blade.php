@@ -3,7 +3,7 @@
 @section('content')
     <div class="row g-3">
         {{-- Grid para los card de productos --}}
-        <div class="col-8">
+        <div class="col-12 col-lg-8">
             <div class="d-flex justify-content-end mb-2">
                 <a href="{{ route('products.export') }}" class="btn btn-success btn-sm">
                     <i class="bi bi-file-earmark-excel"></i> Exportar Excel
@@ -12,7 +12,7 @@
             <div class="row g-3" id="product_grid">
                 {{-- Iteramos cards --}}
                 @foreach ($products as $product)
-                    <div class="col-4">
+                    <div class="col-12 col-sm-6 col-xl-4">
                         <div class="card h-100 cursor-pointer shadow-sm" data-product='@json($product)'
                             style="cursor:pointer">
                             <div class="card-body">
@@ -27,7 +27,7 @@
 
 
         {{-- Panel derecho - Donde se mostrara el producto --}}
-        <div class="col-4">
+        <div class="col-12 col-lg-4">
             <div class="card h-100 shadow-sm" id="detail-panel">
                 <div class="card-body d-flex align-items-center justify-content-center text-muted">
                     <div class="card-body" id="select">

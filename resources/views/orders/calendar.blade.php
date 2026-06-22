@@ -3,12 +3,12 @@
 @section('content')
     <div class="row">
         {{-- Calendario --}}
-        <div class="col-8">
+        <div class="col-12 col-lg-8 mb-sm-5">
             <div id="calendar"></div>
         </div>
 
         {{-- Formulario --}}
-        <div class="col-4">
+        <div class="col-12 col-lg-4">
             <div class="card shadow-sm">
                 <div class="card-body">
                     <h5 class="card-title">Nuevo Pedido</h5>

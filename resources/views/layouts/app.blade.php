@@ -13,7 +13,7 @@
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
     <!-- Scripts Globales -->
-   @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
 <body class="font-sans antialiased">
@@ -32,7 +32,10 @@
         <div class="d-flex" style="background-color: antiquewhite">
             <x-sidebar />
             <main class="flex-grow-1 p-4">
-
+                <button class="btn btn-outline-primary  mb-3" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#sidebar" aria-controls="sidebar">
+                    <i class="bi bi-list"></i> Menú
+                </button>
                 <!--   Mensaje de Exito  -->
                 @if (session('success'))
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -48,7 +51,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                     </div>
                 @endif
-                
+
                 <!--   Mensaje de Estado  -->
                 @if (session('status'))
                     <div class="alert alert-info alert-dismissible fade show" role="alert">
