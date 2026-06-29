@@ -15,13 +15,13 @@ class ProductImageSeeder extends Seeder
      */
     public function run(): void
     {
-        /** Leemos els products.json */
+        /** Leemos el  products.json */
         $products = json_decode(file_get_contents(database_path('data/products.json')), true);
 
         /** Iteramos datos json */
         foreach ($products as $product) {
 
-            /** Obtenemos el modelo del producto realcionado  */
+            /** Obtenemos el modelo del producto relacionado  */
             $find = Product::where('name', $product['name'])->first();
 
             /** Iteramos las imagenes del json */

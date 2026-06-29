@@ -8,28 +8,24 @@ use Illuminate\Support\Str;
 
 class CategoriesController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
+    public function index(){}
 
     /**
-     * Show the form for creating a new resource.
+     * Vista para crear categoria
      */
     public function create()
     {
-        /** Obtenemos todas las categorias padre  */
+        /** Obtenemos todas las categorias  */
         $categories  = Category::all();
 
         /** y lo cargamos a la lista  */
         return view('categories.create', compact('categories'));
     }
 
+    
     /**
-     * Store a newly created resource in storage.
+     * Crear categoria
+     * @param $request
      */
     public function store(Request $request)
     {
@@ -52,21 +48,16 @@ class CategoriesController extends Controller
 
         ]);
 
-
-
         return back()->with('success', 'Categoría creada correctamente');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
-    {
-        //
-    }
+    public function show(string $id){}
 
     /**
-     * Show the form for editing the specified resource.
+     * Vista de edicion de categoria
      */
     public function edit(string $id)
     {
@@ -83,8 +74,9 @@ class CategoriesController extends Controller
         return view('categories.edit', compact('category', 'categories'));
     }
 
+    
     /**
-     * Update the specified resource in storage.
+     * Funcion para actualizar categoria
      */
     public function update(Request $request, string $id)
     {
@@ -109,8 +101,10 @@ class CategoriesController extends Controller
         return back()->with('success', 'Categoría modificada correctamente');
     }
 
+    
     /**
-     * Remove the specified resource from storage.
+     * Funcion para borrar categoria
+     * @param $id
      */
     public function destroy(string $id)
     {
@@ -125,7 +119,7 @@ class CategoriesController extends Controller
         
         $category->delete();
 
-        return back()->with('success', 'Categoría borrada correctamente');
+        return redirect()->route('categories.create')->with('succes', 'Categoria Eliminada Correctamente');
     }
 
 }

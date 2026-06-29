@@ -35,7 +35,7 @@ class ImageService
             mkdir($dest, 0755, true);
         }
 
-        $name = $img->getClientOriginalName();
+        $name = $img->hashName();
     
         /** Ponemos la imagen en el directorio */
         $img->move($dest, $name);

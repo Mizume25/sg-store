@@ -12,7 +12,9 @@ class ProductCategoryController extends Controller
 {
     public function __construct(private ImageService $imageService) {}
 
-
+    /**
+     * Vista a edicion de categorias de producto
+     */
     public function edit(int $id)
     {
         $product = Product::with('categories')->find($id);
@@ -23,6 +25,9 @@ class ProductCategoryController extends Controller
     }
 
 
+    /**
+     * Actualizacion de categorias de producto
+     */
     public function update(Request $request, string $productID)
     {
         $request->validate([
@@ -33,13 +38,6 @@ class ProductCategoryController extends Controller
         ]);
 
         $product = Product::findOrFail($productID);
-
-        
-
-        
-
-        /** Calculamos new path */
-        $newPath = $product->code . '/' . 
 
         /** Actualizamos categorias */
         $product->categories()->sync(array_merge(

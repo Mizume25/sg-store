@@ -16,16 +16,12 @@ class ProductsController extends Controller
 {
 
     public function __construct(private ImageService $imageService) {}
+    
+    public function index(){}
+    
     /**
-     * Display a listing of the resource.
+     * Exportacion de productos en formato xlsx
      */
-    public function index()
-    {
-        //
-    }
-
-
-
     public function export()
     {
         $products = Product::with('categories', 'rates')->get()->map(function ($product) {
@@ -40,7 +36,11 @@ class ProductsController extends Controller
 
         return (new FastExcel($products))->download('productos.xlsx');
     }
-
+    
+    /**
+     * Exportacion individual de producto 
+     * @param $id 
+     */
     public function pdf(string $id)
     {
         $product = Product::with('categories', 'rates', 'images')->findOrFail($id);
@@ -51,7 +51,7 @@ class ProductsController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Vista de crear producto
      */
     public function create()
     {
@@ -61,7 +61,7 @@ class ProductsController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Funcion de crear producto
      */
     public function store(Request $request)
     {
@@ -82,8 +82,7 @@ class ProductsController extends Controller
         /** Creamos el codigo */
         $code = strtoupper(substr($request->name, 0, 3)) . '-' . strtoupper(Str::random(4));
 
-        /** Creamos path */
-        $path = $code . '/';
+        
 
         /** Creamos el producto */
         $product = Product::create([
@@ -97,8 +96,8 @@ class ProductsController extends Controller
 
 
 
-        $this->imageService->upload($request->file('image1'), $path, $product->id);
-        $this->imageService->upload($request->file('image2'), $path, $product->id);
+        $this->imageService->upload($request->file('image1'), $code, $product->id);
+        $this->imageService->upload($request->file('image2'), $code, $product->id);
 
         //** Creamos tarifas */
         foreach ($request->rates as $rate) {
@@ -115,12 +114,12 @@ class ProductsController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Vista de edicion de producto
      */
     public function edit(string $id)
     {
         /** Encontramos el producto con todas sus relaciones */
-        $product = Product::with('categories', 'rates', 'images')->find($id);
+        $product = Product::with('categories', 'rates', 'images')->findOrFail($id);
 
 
         $categories = Category::all();
@@ -130,13 +129,9 @@ class ProductsController extends Controller
 
 
     /**
-     * Formlario para gestionar categorias relacionadas
-     */
-
-
-
-    /**
-     * Update the specified resource in storage.
+     * Funcion que actualiza producto
+     * @param $request
+     * @param $id
      */
     public function update(Request $request, string $id)
     {
@@ -189,7 +184,8 @@ class ProductsController extends Controller
 
 
     /**
-     * Remove the specified resource from storage.
+     * Eliminamos producto
+     * @param $id 
      */
     public function destroy(string $id)
     {

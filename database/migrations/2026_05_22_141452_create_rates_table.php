@@ -17,7 +17,7 @@ return new class extends Migration
          */
         Schema::create('rates', function (Blueprint $table) {
             $table->id();
-            $table->decimal('price')->unsigned(); // Debe ser positivo
+            $table->decimal('price')->unsigned(); 
             $table->date('start_date');
             $table->date('end_date');
             $table->unsignedBigInteger('product_id');

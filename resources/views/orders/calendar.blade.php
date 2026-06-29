@@ -39,10 +39,48 @@
                     </form>
                 </div>
             </div>
+
+            {{-- Formulario de edicion --}}
+            <div class="card shadow-sm mt-3 " id="edit-order" hidden>
+
+                <div class="card-body">
+                    <h6 class="card-title mb-3"> Editar Pedido</h6>
+
+                    <form id="edit-form" method="POST">
+                        @csrf
+                        @method('PUT')
+                        <div class="mb-3">
+                            <label class="form-label">Producto</label>
+                            <select name="product_id" id="edit-producto" class="form-select">
+                                @foreach ($products as $product)
+                                    <option value="{{ $product->id }}">{{ $product->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Fecha</label>
+                            <input type="date" class="form-control" name="order_date" id="edit-fecha">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Unidades</label>
+                            <input type="text" class="form-control" name="units" id="edit-unidades">
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100 mb-2">Guardar cambios</button>
+
+                    </form>
+                    <form id="delete-form" method="POST" onsubmit="return confirm('¿Eliminar?')">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger w-100">Eliminar</button>
+                    </form>
+                </div>
+            </div>
+
+
         </div>
     </div>
 @endsection
 
- @push('scripts')
-        @vite('resources/js/calendar.js');
- @endpush
+@push('scripts')
+    @vite('resources/js/calendar.js');
+@endpush

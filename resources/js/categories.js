@@ -1,11 +1,16 @@
 import * as cat from './helpers/h-categories';
 import * as pr from './helpers/h-products';
 
+/** Obtenemos el id  */
 const id = document.querySelector('[data-id]')?.dataset.id;
 
+/** Cargamo las respuestas json */
 const categories = await pr.loadCategories();
 const product = await cat.loadProduct(id);
 
+/** 
+ * Filtramos categorias padre
+*/
 const parentCategory = product.categories.find(c => c.parent_id == null);
 
 
@@ -35,7 +40,7 @@ if (pr.parent) {
                 <label class="form-check-label">${c.name}</label>
             </div>`)
         .join('');
-
+    
     cat.manageLink.href = `/categories/${parentCategory?.id}/edit`;
     cat.manageLinkName.textContent = parentCategory?.name;
 }
@@ -66,7 +71,9 @@ pr.parent?.addEventListener('change', (e) => {
         .join('');
 });
 
-
+/**
+ * Eventos de cambio de subcategoria checkbox
+ */
 pr.subcategory?.addEventListener('change', () => {
     cat.subcategories.innerHTML = categories
         .filter(c => c.parent_id == parseInt(pr.parent.value))

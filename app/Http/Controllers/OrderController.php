@@ -64,18 +64,58 @@ class OrderController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Editar order
+     * @param $request
+     * @param $id 
+     */
+    public function update (Request $request , string $id) 
+    {
+        $request->validate([
+            'product_id' => 'required|exists:products,id',
+            'order_date'    => 'required|date',
+            'units'         => 'required|integer|min:1',
+        ]);
+
+
+          $order = Order::findOrFail($id);
+
+         $amount = $this->amount($request->product_id, $request->units);
+
+          
+          $order->update([
+            'order_date' => $request->order_date,
+            'units' => $request->units,
+            'amount' => $amount,
+            'product_id' => $request->product_id,
+          ]);
+
+           return back()->with('success', 'Orden Actualizada correctamente');
+
+    }
+
+    /**
+     * Eliminar orden
      */
     public function destroy(string $id)
     {
-        //
+        $order = Order::findOrFail($id);
+
+        $order->delete();
+
+        return back()->with('succes', 'Order Eliminado correctamente');
+
     }
 
+    /** Pedido en formato json */
     public function apiOrders()
     {
         $orders = Order::with('product')->get()->map(fn($o) => [
-            'title' => $o->product->name . ' x' . $o->units . ' (' . $o->amount . '€)',
-            'start' => $o->order_date,
+            'id'      => $o->id,
+            'title'   => $o->product->name . ' x' . $o->units . ' (' . $o->amount . '€)',
+            'start'   => $o->order_date,
+            'product' => $o->product->id,
+            'units'   => $o->units,
+            'total'   => $o->amount,
         ]);
 
         return response()->json($orders);

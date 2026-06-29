@@ -1,5 +1,8 @@
 import * as pr from './helpers/h-products';
 
+/**
+ * Cargamos categorias
+ */
 const categories = await pr.loadCategories();
 
 
@@ -37,6 +40,8 @@ pr.lessBTN?.addEventListener('click', () => {
 /** Comprobacion de fechas */
 pr.tarifasContent?.addEventListener('change', (e) => {
     if (e.target.matches('[name*="start_date"], [name*="end_date"]')) {
+
+        /** Declaraciondes del dom */
         const rateItem = e.target.closest('.rate-item');
         const startInput = rateItem.querySelector('[name*="start_date"]');
         const endInput = rateItem.querySelector('[name*="end_date"]');
@@ -47,7 +52,10 @@ pr.tarifasContent?.addEventListener('change', (e) => {
         if (errorExistente) errorExistente.remove();
 
         let mensaje = '';
-
+        
+        /**
+         * Comprobacion de fechas tarifas
+         */
         if (startDate && new Date(startDate) < new Date())
             mensaje = 'ERROR: La fecha de inicio no puede ser anterior o igual a la fecha actual';
 

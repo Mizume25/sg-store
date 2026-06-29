@@ -3,7 +3,7 @@
      <div class="d-flex justify-content-center">
          <div class="card w-100 w-lg-50">
              <div class="card-body">
-                 <form action="{{ route('categories.update', $category->id) }}" method="POST"  id="editForm" >
+                 <form action="{{ route('categories.update', $category->id) }}" method="POST" id="editForm">
                      @csrf
                      @method('PUT')
 
@@ -65,15 +65,26 @@
 
 
                      {{-- Botones --}}
-                     <div class="d-flex flex-column flex-lg-row gap-2">
+                     {{-- Botones en una línea --}}
+                     <div class="d-flex flex-column flex-lg-row gap-2 align-items-lg-center mt-3">
                          <button type="button" class="btn btn-dark btn-lg" data-bs-toggle="modal"
                              data-bs-target="#confirmModal">
                              Actualizar
                          </button>
                          <a href="{{ route('categories.create') }}" class="btn btn-secondary btn-lg">Cancelar</a>
+
+                         {{-- Eliminar empujado a la derecha --}}
+                         <button type="button" class="btn btn-danger btn-lg ms-lg-auto" data-bs-toggle="modal"
+                             data-bs-target="#deleteCategory">
+                             <i class="bi bi-trash"></i> Eliminar
+                         </button>
                      </div>
 
 
+                 </form>
+                 <form action="{{ route('categories.destroy', $category->id) }}" method="POST" id="deleteForm">
+                     @csrf
+                     @method('DELETE')
                  </form>
              </div>
          </div>
@@ -81,9 +92,9 @@
  @endsection
 
  {{-- Modal confirmacion --}}
- 
+
  <div class="modal fade" id="confirmModal" tabindex="-1">
-    
+
      <div class="modal-dialog">
          <div class="modal-content">
              <div class="modal-header">
@@ -95,7 +106,26 @@
              </div>
              <div class="modal-footer">
                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                  <button type="submit" form="editForm" class="btn btn-dark">Confirmar</button>
+                 <button type="submit" form="editForm" class="btn btn-dark">Confirmar</button>
+             </div>
+         </div>
+     </div>
+ </div>
+
+ <div class="modal fade" id="deleteCategory" tabindex="-1">
+
+     <div class="modal-dialog">
+         <div class="modal-content">
+             <div class="modal-header">
+                 <h5 class="modal-title">¿Desea borrar esta categoria?</h5>
+                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+             </div>
+             <div class="modal-body">
+                 ¿Estás seguro de que quieres eliminar esta categoría?
+             </div>
+             <div class="modal-footer">
+                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                 <button type="submit" form="deleteForm" class="btn btn-danger">Eliminar</button>
              </div>
          </div>
      </div>

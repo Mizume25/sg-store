@@ -13,7 +13,9 @@ class ProductsImagesController extends Controller
     public function __construct(private ImageService $imageService) {}
 
     /**
-     * Creacion de nueva imagen
+     * Creacion de una imagen de producto
+     * @param $request
+     * @param $productId
      */
     public function store(Request $request, int $productId)
     {
@@ -23,9 +25,8 @@ class ProductsImagesController extends Controller
 
         $product = Product::findOrFail($productId);
 
-        $path = $product->code . '/';
 
-        $this->imageService->upload($request->file('image'), $path, $productId);
+        $this->imageService->upload($request->file('image'), $product->code, $productId);
 
         return back()->with('success', 'Imagen creada correctamente');
     }
@@ -33,7 +34,8 @@ class ProductsImagesController extends Controller
 
 
     /**
-     * Show the form for editing the specified resource.
+     * Ediciones de imagenes
+     * @param $id
      */
     public function edit(string $id)
     {
@@ -44,7 +46,7 @@ class ProductsImagesController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Remplazar imagen
      */
     public function override(Request $request, int $productId, string $id)
     {
@@ -54,15 +56,16 @@ class ProductsImagesController extends Controller
 
         $product = Product::findOrFail($productId);
 
-        $path = $product->code . '/';
+   
 
-        $this->imageService->replace($id, $request->file('image'), $path, $productId);
+        $this->imageService->replace($id, $request->file('image'), $product->code, $productId);
 
         return back()->with('success', 'Imagen reemplazada correctamente');
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Eliminar imagen
+     * @param $id
      */
     public function destroy(string $id)
     {
