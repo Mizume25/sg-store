@@ -65,10 +65,15 @@
                             <label class="form-label">Unidades</label>
                             <input type="text" class="form-control" name="units" id="edit-unidades">
                         </div>
+
+                         <div class="mb-3">
+                            <label class="form-label">Unidades</label>
+                            <input type="text" class="form-control" id="edit-monto" disabled>
+                        </div>
                         <button type="submit" class="btn btn-primary w-100 mb-2">Guardar cambios</button>
 
                     </form>
-                    <form id="delete-form" method="POST" onsubmit="return confirm('¿Eliminar?')">
+                    <form id="delete-form" method="POST" onsubmit="return confirm('¿Eliminar pedido?')">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger w-100">Eliminar</button>

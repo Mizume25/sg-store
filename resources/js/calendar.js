@@ -8,6 +8,7 @@ const unidades = document.getElementById('edit-unidades');
 const form = document.getElementById('edit-order')
 const edit = document.getElementById('edit-form');
 const del = document.getElementById('delete-form')
+const amount = document.getElementById('edit-monto');
 
 /**
  * Renderiza detalles de pedido
@@ -22,6 +23,7 @@ const rednerDetail = (info) => {
     product.value = p.product;
     fecha.value = e.startStr
     unidades.value = p.units
+    amount.value = e.title
 
     edit.action = `/orders/${e.id}`;
     del.action = `/orders/${e.id}`;

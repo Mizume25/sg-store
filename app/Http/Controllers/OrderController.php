@@ -35,7 +35,10 @@ class OrderController extends Controller
         ]);
 
         /** Llamamos a la funcion del calculo amount */
-        $amount = $this->amount($request->product_id, $request->units);
+        $amount = $this->amount($request->product_id, $request->units , $request->order_date);
+
+        if($amount == 0) return back()->with('error', 'No existe tarifa para la fecha indicada');
+
 
         /** Creamos registro a la base de datos */
         Order::create([
@@ -50,15 +53,19 @@ class OrderController extends Controller
 
     /** Calculo de precio final 
      * @param int $productID
+     * @param string $date
+     * @param int $units
      */
-    private function amount(int $productID, int $units)
+    private function amount(int $productID, int $units , $date)
     {
-        /** Obtenemos la fecha mas "actual"  */
+        /** Tarifa vigente para la fecha del pedido */
         $rate = Rate::where('product_id', $productID)
-            ->orderBy('end_date', 'desc')
-            ->first();
+        ->where('start_date', '<=' , $date)
+        ->where('end_date', '>=', $date)
+        ->orderBy('start_date', 'desc')
+        ->first();
 
-        if (!$rate) return 0;
+        if(!$rate) return 0;
 
         return $rate->price * $units;
     }
@@ -79,7 +86,8 @@ class OrderController extends Controller
 
           $order = Order::findOrFail($id);
 
-         $amount = $this->amount($request->product_id, $request->units);
+         $amount = $this->amount($request->product_id, $request->units , $request->order_date);
+         if($amount == 0) return back()->with('error', 'No existe tarifa para la fecha indicada');
 
           
           $order->update([
