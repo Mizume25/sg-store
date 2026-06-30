@@ -44,28 +44,36 @@
                             <a href='#' class="btn btn-warning btn-sm w-50" id="edit-product">
                                 <i class="bi bi-pencil"></i> Editar
                             </a>
-                            <form action="#" method="POST" class="w-50" id="delte-product">
+                            <button type="button" class="btn btn-danger btn-sm w-100" data-bs-toggle="modal"
+                                data-bs-target="#deleteProduct">
+                                <i class="bi bi-trash"></i> Eliminar
+                            </button>
+                            <form action="#" method="POST" id="delete-product">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm w-100">
-                                    <i class="bi bi-trash"></i> Eliminar
-                                </button>
                             </form>
 
-                            
+
                         </div>
                         <a href="#" class="btn btn-danger btn-sm " id="pdf-product">
-                                <i class="bi bi-file-earmark-pdf"></i> PDF 
-                            </a>
+                            <i class="bi bi-file-earmark-pdf"></i> PDF
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
 
+        <x-confirm-modal
+    id="deleteProduct"
+    title="¿Desea borrar este Producto?"
+    message="¿Estás seguro de que quieres eliminar este producto?"
+    form="delete-product"
+    confirmText="Eliminar"
+/>
+
     </div>
 @endsection
 
- @push('scripts')
-      @vite('resources/js/dashboard.js');
- @endpush
-
+@push('scripts')
+    @vite('resources/js/dashboard.js');
+@endpush

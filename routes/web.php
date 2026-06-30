@@ -29,8 +29,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    /** Api de orders */
-    Route::get('/orders/json', [OrderController::class, 'apiOrders'])->name('orders.json');
+    
 
     /** Exportacion Excel */
     Route::get('/products/export', [ProductsController::class, 'export'])->name('products.export');

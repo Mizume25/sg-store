@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
         initialView: 'dayGridMonth',
         locale: 'es',
         eventColor: '#2c7be5',
-        events: '/orders/json',
+        events: '/api/orders',
         eventClick: rednerDetail
     })
 

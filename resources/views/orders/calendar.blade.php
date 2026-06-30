@@ -66,23 +66,30 @@
                             <input type="text" class="form-control" name="units" id="edit-unidades">
                         </div>
 
-                         <div class="mb-3">
+                        <div class="mb-3">
                             <label class="form-label">Unidades</label>
                             <input type="text" class="form-control" id="edit-monto" disabled>
                         </div>
                         <button type="submit" class="btn btn-primary w-100 mb-2">Guardar cambios</button>
 
                     </form>
-                    <form id="delete-form" method="POST" onsubmit="return confirm('¿Eliminar pedido?')">
+
+                    <button type="submit" class="btn btn-danger w-100" data-bs-toggle="modal"
+                        data-bs-target="#deleteOrder">Eliminar</button>
+
+
+                    <form id="delete-form" method="POST">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-danger w-100">Eliminar</button>
                     </form>
                 </div>
             </div>
 
 
         </div>
+
+        <x-confirm-modal id="deleteOrder" title="¿Desea borrar este pedido?"
+            message="¿Estás seguro de que quieres eliminar este pedido?" form="delete-form" confirmText="Eliminar" />
     </div>
 @endsection
 

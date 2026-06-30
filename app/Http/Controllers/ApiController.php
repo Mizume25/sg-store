@@ -8,7 +8,10 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 
 class ApiController extends Controller
-{
+{   
+    /**
+     * Funcion que retorna productos en json
+     */
     public function products()
     {
         return response()->json(
@@ -16,6 +19,10 @@ class ApiController extends Controller
         );
     }
 
+    /**
+     * Funcion que retorna producto espcifico en formato json
+     * @param $id product
+     */
     public function product(int $id)
     {
         return response()->json(
@@ -23,13 +30,28 @@ class ApiController extends Controller
         );
     }
 
+    /**
+     * Funcion que retrona categorias en formato json
+     */
     public function categories()
     {
         return response()->json(Category::all());
     }
 
+    /**
+     * Listado de ordenes
+     */
     public function orders()
     {
-        return response()->json(Order::with('product')->get());
+        $orders = Order::with('product')->get()->map(fn($o) => [
+            'id'      => $o->id,
+            'title'   => $o->product->name . ' x' . $o->units . ' (' . $o->amount . '€)',
+            'start'   => $o->order_date,
+            'product' => $o->product->id,
+            'units'   => $o->units,
+            'total'   => $o->amount,
+        ]);
+
+        return response()->json($orders);
     }
 }

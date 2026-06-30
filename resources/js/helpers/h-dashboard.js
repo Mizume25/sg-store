@@ -8,7 +8,7 @@ export const categories = card?.querySelector('#categories');
 export const images = card?.querySelector('#imagenes');
 export const rates = card?.querySelector('#prices');
 export const editBTN = card?.querySelector('#edit-product');
-export const deleteBTN = card?.querySelector('#delte-product');
+export const deleteBTN = card?.querySelector('#delete-product');
 export const pdfBTN = card?.querySelector('#pdf-product');
 
 
