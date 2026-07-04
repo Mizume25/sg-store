@@ -1,10 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\Product;
-
-use function PHPSTORM_META\map;
 
 /**
  * Controlador Principal

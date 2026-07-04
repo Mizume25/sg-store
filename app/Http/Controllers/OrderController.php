@@ -76,15 +76,18 @@ class OrderController extends Controller
      * @param $id 
      */
     public function update (Request $request , string $id) 
-    {
+    {   
+        
         $request->validate([
             'product_id' => 'required|exists:products,id',
             'order_date'    => 'required|date',
             'units'         => 'required|integer|min:1',
         ]);
 
+       
 
-          $order = Order::findOrFail($id);
+
+         $order = Order::findOrFail($id);
 
          $amount = $this->amount($request->product_id, $request->units , $request->order_date);
          if($amount == 0) return back()->with('error', 'No existe tarifa para la fecha indicada');

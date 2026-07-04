@@ -16,9 +16,9 @@ class ProductsController extends Controller
 {
 
     public function __construct(private ImageService $imageService) {}
-    
-    public function index(){}
-    
+
+    public function index() {}
+
     /**
      * Exportacion de productos en formato xlsx
      */
@@ -36,7 +36,7 @@ class ProductsController extends Controller
 
         return (new FastExcel($products))->download('productos.xlsx');
     }
-    
+
     /**
      * Exportacion individual de producto 
      * @param $id 
@@ -82,7 +82,7 @@ class ProductsController extends Controller
         /** Creamos el codigo */
         $code = strtoupper(substr($request->name, 0, 3)) . '-' . strtoupper(Str::random(4));
 
-        
+
 
         /** Creamos el producto */
         $product = Product::create([
@@ -146,36 +146,29 @@ class ProductsController extends Controller
 
         $product = Product::findOrFail($id);
 
-        $code = $product->code;
-
-        if ($product->name != $request->name) {
-
-
-            $oldCode = $product->code;
-            $code = strtoupper(substr($request->name, 0, 3)) . '-' . strtoupper(Str::random(4));
-
-
-            $oldPath = public_path($oldCode);
-            $newPath = public_path($code);
-
-            if (File::isDirectory($oldPath)) {
-                File::move($oldPath, $newPath);
-                 
-            }
-        }
+     
 
         /** Actualizamos producto */
         $product->update([
             'name' => $request->name,
-            'code' => $code,
             'description' => $request->description,
         ]);
 
-        /** Eliminamos antiguas tarifas */
-        $product->rates()->delete();
+        $incomingIds = [];
 
-        /** Creamos tarifas nuevas */
-        $product->rates()->createMany($request->rates);
+        foreach ($request->rates as $rate) {
+            $saved = $product->rates()->updateOrCreate(
+                ['id' => $rate['id'] ?? null],
+                [
+                    'price' => $rate['price'],
+                    'start_date' => $rate['start_date'],
+                    'end_date' => $rate['end_date'],
+                ]
+            );
+            $incomingIds[] = $saved->id;
+        }
+
+        $product->rates()->whereNotIn('id', $incomingIds)->delete();
 
         return back()->with('success', 'Producto editado correctamente');
     }

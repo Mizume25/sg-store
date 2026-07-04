@@ -41,10 +41,6 @@
                     {{-- Botones --}}
                     <div class="d-flex flex-column flex-lg-row gap-2">
                         <button type="submit" class="btn btn-dark btn-lg">Crear</button>
-                        <button type="button" class="btn btn-info" data-bs-toggle="modal"
-                            data-bs-target="#modalCategorias">
-                            Ver subcategorías existentes
-                        </button>
                         <button type="button" class="btn btn-warning" data-bs-toggle="modal"
                             data-bs-target="#editCategorias">
                             Editar Categorias
@@ -56,26 +52,7 @@
         </div>
     </div>
 
-    {{-- Modal de subcategorias --}}
-    <div class="modal fade" id="modalCategorias" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Subcategorias existentes</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <ul class="list-group">
-                        @foreach ($categories as $category)
-                            @if ($category->parent_id != null)
-                                <li class="list-group-item cursor-pointer">{{ $category->name }}</li>
-                            @endif
-                        @endforeach
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
+  
 
     {{-- Modal de listas --}}
     <div class="modal fade" id="editCategorias" tabindex="-1">

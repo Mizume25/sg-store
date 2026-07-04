@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductsImage;
+use App\Models\Rate;
 use App\Services\ImageService;
+use GuzzleHttp\Promise\Create;
 use Illuminate\Http\Request;
 
 class ProductCategoryController extends Controller
@@ -49,4 +51,7 @@ class ProductCategoryController extends Controller
 
         return redirect()->route('products.edit', $productID)->with('success', 'Categorías actualizadas correctamente');
     }
+
+
+
 }

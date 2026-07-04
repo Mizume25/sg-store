@@ -110,11 +110,8 @@ class CategoriesController extends Controller
     {
         $category = Category::findOrFail($id);
 
-        if ($category->products()->exists()) {
-            return back()->with('error', 'No se puede eliminar, tiene productos asociados');
-        }
-
- 
+        if ($category->products()->exists()) return back()->with('error', 'No se puede eliminar, tiene productos asociados');
+        
         if ($category->parent_id === null) Category::where('parent_id', $category->id)->delete();
         
         $category->delete();

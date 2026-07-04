@@ -67,7 +67,7 @@
                      {{-- Botones --}}
                      {{-- Botones en una línea --}}
                      <div class="d-flex flex-column flex-lg-row gap-2 align-items-lg-center mt-3">
-                         <button type="submit" class="btn btn-dark btn-lg">
+                         <button type="submit" class="btn btn-warning btn-lg">
                              Actualizar
                          </button>
                          <a href="{{ route('categories.create') }}" class="btn btn-secondary btn-lg">Cancelar</a>

@@ -55,6 +55,7 @@
                         @foreach ($product->rates as $index => $rate)
                             <div class="row g-2 mb-2 rate-item" id="rate-{{ $index }}">
                                 <div class="col">
+                                  <input type="hidden" name="rates[{{ $index }}][id]" value="{{ $rate->id }}">
                                     <input type="number" name="rates[{{ $index }}][price]"
                                         value="{{ $rate->price }}" step="0.01" min="0" required>
                                 </div>

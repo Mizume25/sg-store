@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductsController;
@@ -15,13 +16,7 @@ Route::get('/', function() {
 });
 
 /** Crear Vista de Home */
-Route::get('/dashboard', [CatalogController::class, 'home'])->middleware(['auth', 'verified'])->name('dashboard');
-
-/*
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-*/
+Route::get('/dashboard', DashboardController::class)->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     
