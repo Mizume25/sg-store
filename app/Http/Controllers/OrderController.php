@@ -106,6 +106,7 @@ class OrderController extends Controller
 
     /**
      * Eliminar orden
+     * @param $id
      */
     public function destroy(string $id)
     {

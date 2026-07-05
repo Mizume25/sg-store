@@ -16,6 +16,7 @@ class ProductCategoryController extends Controller
 
     /**
      * Vista a edicion de categorias de producto
+     * @param $id
      */
     public function edit(int $id)
     {
@@ -29,6 +30,8 @@ class ProductCategoryController extends Controller
 
     /**
      * Actualizacion de categorias de producto
+     * @param $request
+     * @param $productID
      */
     public function update(Request $request, string $productID)
     {

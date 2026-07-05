@@ -62,6 +62,7 @@ class ProductsController extends Controller
 
     /**
      * Funcion de crear producto
+     * @param $request
      */
     public function store(Request $request)
     {
@@ -115,6 +116,7 @@ class ProductsController extends Controller
 
     /**
      * Vista de edicion de producto
+     * @param $id 
      */
     public function edit(string $id)
     {
